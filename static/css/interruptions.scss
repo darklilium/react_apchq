@@ -1,0 +1,91 @@
+$symbology-img:"images/widget_icons/symbology.png";
+* {
+    box-sizing: border-box;
+}
+
+body{
+  height: auto;
+}
+
+.esriSimpleSliderTL {
+    top: 4em;
+    visibility: hidden;
+}
+
+.interruptions__wrapper{
+  width: 100%;
+  height: 100%;
+}
+
+.map_div{
+  width: 100%;
+  height: 100vh;
+  background-color: white;
+  z-index: 1;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  padding-top: 1.7em;
+  position: fixed;
+}
+
+.interruptions__header{
+  width: 100%;
+  margin-top: 0.1em;
+  padding: 0;
+  height: 1.6em;
+  background-color: ghostwhite;
+  z-index: 4;
+  position: fixed;
+}
+.interruptions__symbology{
+content: url($symbology-img);
+}
+// screens for less than 1024px
+@media screen and (max-width: 1024px ) {
+  .interruptions__symbology-img{
+    width: 2.8em;
+    height: auto;
+    margin-left: 0em;
+
+  }
+
+  .interruptions__symbology{
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background-color: rgba(255, 255, 255, 0.6);
+    background-blend-mode: screen;
+    bottom: 0;
+    z-index: 3;
+    padding: 1em;
+    position: absolute;
+  }
+}
+
+/*screens for more than 1024px*/
+@media screen and (min-width: 1024px) {
+/*  .interruptions__symbology-img{
+    width: 3em;
+    height: auto;
+    margin-left: 0em;
+  }
+*/
+  .interruptions__symbology{
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background-color: rgba(255, 255, 255, 0.6);
+    background-blend-mode: screen;
+    bottom: 0;
+    z-index: 3;
+    padding: 1em;
+    position: absolute;
+  }
+
+}
+
+@import "components/searchbar-component";
+@import "components/statistics";
+@import "components/statistics_summary-comp";
+@import "components/griddlegrid-component";
+@import "components/layerlist-component";
