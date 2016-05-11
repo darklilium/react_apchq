@@ -11,10 +11,10 @@ class LoginApp extends React.Component {
 
   componentWillMount(){
     //change the loginwall dinamically
-    let randomPicNumber = Math.floor((Math.random() * 6) + 1);
+    let randomPicNumber = Math.floor((Math.random() * 8) + 1);
     //********Cambiar randomPicSrc para test/prod*******
     //let randomPicSrc = "css/images/login_images/loginwall"+ randomPicNumber+ ".jpg"; //prod
-    let randomPicSrc = "static/css/images/login_images/loginwall"+ randomPicNumber+ ".jpg";//desarrollo
+    let randomPicSrc = "static/css/images/login_images/ap_images/apwall"+ randomPicNumber+ ".jpg";//desarrollo
     $('.login_wrapper').css("background-image", "url("+randomPicSrc+")");
   }
 
