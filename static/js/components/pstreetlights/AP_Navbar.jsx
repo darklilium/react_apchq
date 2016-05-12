@@ -8,8 +8,9 @@ class APNavBar extends React.Component {
     this.onClickSearch = this.onClickSearch.bind(this);
   }
 
-  onClickSearch(){
-    console.log("clicking button");
+  onClickSearch(i, props){
+    console.log("clicking button",i);
+
   }
   render(){
     return (
@@ -20,16 +21,16 @@ class APNavBar extends React.Component {
       </div>
 
       <div className="ap_navbar_wrapper-buttons">
-        <button className="ap_navbar_button btn btn-default" title="Buscar" type="button" onClick={this.onClickSearch}>
+        <button className="ap_navbar_button btn btn-default" title="Buscar" type="button" onClick={this.onClickSearch.bind(this,1)}>
             <span><i className="fa fa-search"></i></span>
         </button>
-        <button className="ap_navbar_button btn btn-default" title="Ver tabla Medidores" type="button" onClick={this.onClickSearch}>
+        <button className="ap_navbar_button btn btn-default" title="Ver tabla Medidores" type="button" onClick={this.onClickSearch.bind(this,2)}>
             <span><i className="fa fa-tachometer"></i></span>
         </button>
-        <button className="ap_navbar_button btn btn-default" title="Ver Tabla Luminarias" type="button" onClick={this.onClickSearch}>
+        <button className="ap_navbar_button btn btn-default" title="Ver Tabla Luminarias" type="button" onClick={this.onClickSearch.bind(this,3)}>
             <span><i className="fa fa-lightbulb-o"></i></span>
         </button>
-        <button className="ap_navbar_button btn btn-default" title="Cambiar mapa" type="button" onClick={this.onClickSearch}>
+        <button className="ap_navbar_button btn btn-default" title="Cambiar mapa" type="button" onClick={this.onClickSearch.bind(this,4)}>
             <span><i className="fa fa-globe"></i></span>
         </button>
       </div>

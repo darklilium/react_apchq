@@ -1,0 +1,27 @@
+$ap_search_backgroundcolor: ghostwhite;
+
+.ap__search_wrapper{
+
+  width: 70%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.ap__search_wrapper_elements{
+  display: flex;
+  flex-direction: inherit;
+  align-items: initial;
+  flex-wrap: wrap;
+  flex-direction: row;
+  }
+
+.ap__search-combobox{
+  width: 6em;
+  }
+
+.ap__search-input{
+  width: 40%;
+  height: inherit;
+}
