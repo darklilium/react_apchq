@@ -1,50 +1,32 @@
-# react_jsapi
-Para proyecto inicial de Clientes Interrumpidos.
+# react_apchq
 
-Objetivo: Crear una app web que permita mostrar los clientes interrumpidos y su información de acuerdo a la orden.
+<i>Español</i>
 
-Especificaciones:
+<h1>Para proyecto alumbrado público.</h1>
+<strong>Objetivo: Controlar la información con respecto al alumbrado público que Chilquinta ofrece a las Municipalidades</strong>
 
-OK • Mostrar en el mapa las Subestaciones interrumpidas a escala de zoom (por agrupamiento).
+<b>Especificaciones:</b>
 
-OK • Mostrar Clientes interrumpidos a escala de zoom cercano.
+<ul>
+    <li>Mostrar la ubicación geográfica del alumbrado público en un mapa, utilizando tecnología que la empresa actualmente posee ("ArcGIS").</li>
+    <li>Mostrar los datos de las luminarias asociados a su ubicación como: tipo de conexión, tipo de luminaria, potencia (Watts), propiedad, rótulo del poste asociado a la luminaria, observaciones encontradas.</li>
+    <li>Permitir buscar: una luminaria, un medidor en la aplicación y a su vez, vislumbrar el tramo y red a la cual pertenecen.</li>
+    <li>Modificar datos de la luminaria.</li>
+    <li>Permitir extraer los datos a EXCEL para usos que Chilquinta y el cliente estimen convenientes.</li>
+</ul>
 
-OK • Mostrar la información de un NIS o SED al hacer clic.
+<i>English</i>
 
-OK • Graficar la cantidad de clientes por comuna.
+<h1>Public Street Lights Project</h1>
+<strong>Objective: Management and control for the public street lights that the company offers to the city hall</strong>
 
-OK • Graficar la cantidad de clientes por oficina.
+<b>Specifications:</b>
 
-OK • Graficar el % de clientes por comuna.
+<ul>
+    <li>Show the geographic location of all the public streets lights (PSL) in a map using Arcgis Technology.</li>
+    <li>Show the associated data of those elements like: connection type, lightbulb type, power (Watts), ID number, pole ID, commentaries.</li>
+    <li>Search for: lightbulb ID, energy meter, pole ID and also draw the electric network and more elements associated.</li>
+    <li>Modify the information associated to the PSL.</li>
+    <li>Export the data to Excel </li>
 
-OK • Buscar los siguientes elementos e indicar si está interrumpido y mostrar localización:
-     • NIS
-     • ID ORDEN
-     • ID INCIDENCIA
-     • SED
-
-OK • Mostrar el tiempo de las ordenes según un color.
-     • 0 - 1 Hora
-     • 1 - 2
-     • 3 - 24
-     • 24 ++
-
-OK • Generar un reporte de clientes interrumpidos según:
-     • Tipo de Cliente (NIS o SED)
-     • ID Orden
-     • ID Incidencia
-     • Estado
-     • Fechas asociadas al estado de la orden
-     • Tiempo de interrupción
-     • ETR (Estimated Time Reposition)
-
-OK • Mostrar las ordenes en una tabla según extent del mapa (la vista zoom del mapa referente al total de la visualización de la pantalla).
-
-OK • Mostrar dinámicamente la cantidad de:
-     • Total de clientes domiciliarios (DOM) interrumpidos
-     • Total de clientes pertenecientes a una Subestación de Distribución interrumpidos (RED)
-     • Total de clientes interrumpidos
-
-OK • Filtrar resultados en la tabla de ordenes.
-
-OK • Web compatible con dispositivos móviles (Tablet principalmente).
+</ul>
