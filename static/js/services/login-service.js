@@ -34,13 +34,13 @@ function genericLogin(user, pass, token){
     console.log('writing token into system');
     token.write(myToken);
 
-    const page = "REACT_INTERRUPCIONES_WEB";
-    const module = "PO_INTERRUPCIONES";
+    const page = "REACT_AP_WEB";
+    const module = "AP_CHQ";
 
     notifications("Logging in...","Login_Success", ".notification-login");
     window.location.href = "apchq.html";
 
-    saveLogin(user,page,module,myToken);
+    // saveLogin(user,page,module,myToken);
   })
   .fail(error => {
     console.log("You are not authorized ):");
