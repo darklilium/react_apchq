@@ -6,6 +6,7 @@ class APSearch extends React.Component {
   constructor(props){
     super(props);
     this.onClickSearch = this.onClickSearch.bind(this);
+  
   }
 
   onClickSearch(){
@@ -23,7 +24,7 @@ class APSearch extends React.Component {
         <button className="ap_navbar_button btn btn-default" title="Buscar" type="button" onClick={this.onClickSearch}>
             <span><i className="fa fa-search"></i></span>
         </button>
-      </div>    
+      </div>
     </div>
     );
   }
