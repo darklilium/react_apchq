@@ -24,7 +24,7 @@ $navbar_backgroundcolor: ghostwhite;
 }
 
 @media screen and (max-width: 480px) and (min-width:320px) and (orientation: landscape)  {
-  
+
 }
 
 @import "components/apchq/APNavBar-component";
@@ -33,4 +33,4 @@ $navbar_backgroundcolor: ghostwhite;
 
 @import "components/apchq/APEditor-component";
 
-//@import "components/apchq/APPicture-component";
+@import "components/apchq/APInfo-component";
