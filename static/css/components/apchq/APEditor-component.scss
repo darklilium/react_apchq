@@ -1,5 +1,116 @@
 
 $fontSizexxSmall: xx-small;
+$fontSize11px: 11px;
+
+.ap_wrapper-editor{
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  bottom: 0;
+  position: fixed;
+  height: 320px;
+}
+
+.ap_wrapper-editor-top{
+  display: flex;
+  flex-direction: column;
+  font-size: $fontSizexxSmall;
+  margin: 0.5em;
+}
+
+.ap_wrapper-editor-mid{
+  display: flex;
+flex-direction: column;
+font-size: $fontSize11px;
+margin: 0.5em;
+}
+
+.ap_wrapper-editor-bot{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0.5em;
+}
+
+/* CSS FOR SECOND TAB*/
+
+.ap_wrapper_picture-top{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 1em;
+}
+
+.ap_wrapper_picture-mid{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0.5em;
+  height: 175px;
+}
+
+.ap_wrapper_picture-bot{
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5em;
+}
+
+@media screen and (max-width: 1024px) and (min-width:481px) and (orientation: landscape)  {
+  .ap_wrapper-editor{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    bottom: 0;
+    position: fixed;
+    height: 320px;
+  }
+
+  .ap_wrapper-editor-top{
+    display: flex;
+    flex-direction: column;
+    font-size: xx-small;
+    margin: 0.5em;
+  }
+
+  .ap_wrapper-editor-mid{
+    display: flex;
+  flex-direction: column;
+  font-size: $fontSize11px;
+  margin: 0.5em;
+  }
+
+  .ap_wrapper-editor-bot{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0.5em;
+  }
+
+  /* CSS FOR SECOND TAB*/
+
+  .ap_wrapper_picture-top{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1em;
+  }
+
+  .ap_wrapper_picture-mid{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0.5em;
+    height: 175px;
+  }
+
+  .ap_wrapper_picture-bot{
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5em;
+  }
+}
 
 @media screen and (max-width: 480px) and (min-width:320px) and (orientation: portrait)  {
   /* CSS FOR FIRST TAB */
@@ -58,5 +169,58 @@ $fontSizexxSmall: xx-small;
 }
 
 @media screen and (max-width: 480px) and (min-width:320px) and (orientation: landscape)  {
+  /* CSS FOR FIRST TAB */
+  .ap_wrapper-editor{
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    bottom: 0;
+    position: fixed;
+    height: 285px;
+  }
 
+  .ap_wrapper-editor-top{
+    display: flex;
+    flex-direction: column;
+    font-size: xx-small;
+    margin: 0.5em;
+  }
+
+  .ap_wrapper-editor-mid{
+    display: flex;
+  flex-direction: column;
+  font-size: $fontSizexxSmall;
+  margin: 0.5em;
+  }
+
+  .ap_wrapper-editor-bot{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0.5em;
+  }
+
+  /* CSS FOR SECOND TAB*/
+
+  .ap_wrapper_picture-top{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1em;
+  }
+
+  .ap_wrapper_picture-mid{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0.5em;
+    height: 142px;
+  }
+
+  .ap_wrapper_picture-bot{
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5em;
+  }
 }

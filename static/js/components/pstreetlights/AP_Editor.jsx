@@ -86,7 +86,7 @@ class APEditor extends React.Component {
               <span><i className="fa fa-trash-o"></i></span>
             </button>
             <button className="ap__editor_button ap__editor_button-bot btn btn-default" title="Nuevo" type="button" onClick={this.onClickEditor}>
-              <span><i className="fa fa-plus-square-o"></i></span>
+              <span><i className="fa fa-plus"></i></span>
             </button>
           </div>
 
