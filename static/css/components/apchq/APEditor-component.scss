@@ -1,226 +1,62 @@
-.ap__editor_wrapper{
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: baseline;
-  background-color: lavender;
-  position: absolute;
-  z-index: 2;
-  bottom: 0px;
-  width: 50%;
-  height: inherit;
-  font-size: 16px;
-}
 
-.ap__editor_wrapper_top{
-  display: flex;
-flex-direction: row;
-flex-wrap: wrap;
-height: 2.5em;
-align-items: center;
-margin-bottom: 0.5em;
-width: 100%;
-}
-
-.ap__editor_button-top{
-  height: 2em;
-}
-
-.button-span{
-  display: flex;
-}
-
-.ap__editor_top_div{
-  display: flex;
-  flex-direction: column;
-  font-size: 12px;
-  width: 50%;
-}
-
-.ap__editor_top_div-buttons{
-  width: 50%;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row-reverse;
-  height: inherit;
-}
-.ap__editor_button{
-
-}
-
-.ap__editor_wrapper_mid{
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.ap__editor-combobox{
-
-}
-
-.ap__editor-input{
-
-}
-
-.ap__editor_wrapper_bot{
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-between;
-}
-
-.ap__editor_button-bot{
-      flex-grow: 2;
-}
+$fontSizexxSmall: xx-small;
 
 @media screen and (max-width: 480px) and (min-width:320px) and (orientation: portrait)  {
-  .ap__editor_wrapper{
-  /*  display: flex;
+  /* CSS FOR FIRST TAB */
+  .ap_wrapper-editor{
+    width: 50%;
+    display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    align-items: center;
-    background-color: lavender;
-    position: absolute;
-    z-index: 2;
-    bottom: 0px;
-    width: 50%;
-*/
-display: flex;
-flex-direction: column;
-flex-wrap: wrap;
-align-items: center;
-background-color: lavender;
-position: absolute;
-z-index: 2;
-bottom: 0px;
-width: 55%;
-height: 100%;
-padding: 0px 5px 0 3px;
-
+    bottom: 0;
+    position: fixed;
+    height: 300px;
   }
 
-  .ap__editor_wrapper_top{
+  .ap_wrapper-editor-top{
     display: flex;
-flex-direction: row;
-flex-wrap: wrap;
-height: 2.5em;
-align-items: center;
-margin-bottom: 0.5em;
-width: 100%;
+    flex-direction: column;
+    font-size:  $fontSizexxSmall;
+    margin: 1em;
   }
 
-  .ap__editor_top_div{
+  .ap_wrapper-editor-mid{
     display: flex;
-      flex-direction: column;
-      font-size: 7px;
+    flex-direction: column;
+    font-size: $fontSizexxSmall;
+    margin: 1em;
   }
 
-
-
-  .ap__editor_button{
-
-  }
-  .ap__editor_button-top{
-    height: inherit;
-    width: inherit;
-    display: flex;
-    margin-top: 2px;
-  }
-
-  .ap__editor_wrapper_mid{
-    display: flex;
-        flex-direction: column;
-  }
-
-  .ap__editor-combobox{
-
-  }
-
-  .ap__editor-input{
-
-  }
-
-  .ap__editor_wrapper_bot{
+  .ap_wrapper-editor-bot{
     display: flex;
     flex-direction: row;
-    width: 100%;
     justify-content: space-between;
+    margin: 1em;
   }
 
-  .ap__editor_button-bot{
-        flex-grow: 2;
+  /* CSS FOR SECOND TAB*/
+
+  .ap_wrapper_picture-top{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1em;
+  }
+
+  .ap_wrapper_picture-mid{
+    display: flex;
+    max-height: 50%;
+    flex-wrap: wrap;
+    height: 145px;
+  }
+
+  .ap_wrapper_picture-bot{
+    display: flex;
+    justify-content: space-between;
+    margin: 1em;
   }
 }
 
 @media screen and (max-width: 480px) and (min-width:320px) and (orientation: landscape)  {
-  .ap__editor_wrapper{
-    display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      align-items: baseline;
-      background-color: lavender;
-      position: absolute;
-      z-index: 2;
-      bottom: 0px;
-      width: 53%;
-      height: inherit;
-      font-size: 10px;
-  }
 
-  .ap__editor_wrapper_top{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    height: 2.5em;
-    align-items: center;
-    margin-bottom: 0.5em;
-  }
-
-  .ap__editor_button-top{
-    height: inherit;
-  }
-  .ap__editor_top_div-buttons{
-    display: flex;
-      flex-wrap: wrap;
-      flex-direction: row-reverse;
-  }
-
-  .button-span{
-        display: flex;
-  }
-  .ap__editor_top_div{
-    display: flex;
-    flex-direction: column;
-
-    font-size: xx-small;
-  }
-
-  .ap__editor_button{
-
-  }
-
-  .ap__editor_wrapper_mid{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .ap__editor-combobox{
-
-  }
-
-  .ap__editor-input{
-
-  }
-
-  .ap__editor_wrapper_bot{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .ap__editor_button-bot{
-        flex-grow: 2;
-  }
 }
