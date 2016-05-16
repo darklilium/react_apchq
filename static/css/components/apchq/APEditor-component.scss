@@ -8,8 +8,11 @@ $fontSize11px: 11px;
   flex-direction: column;
   flex-wrap: wrap;
   bottom: 0;
-  position: fixed;
   height: 320px;
+  position: fixed;
+  z-index: 2;
+  background: ghostwhite;
+  visibility: hidden;
 }
 
 .ap_wrapper-editor-top{
@@ -21,9 +24,9 @@ $fontSize11px: 11px;
 
 .ap_wrapper-editor-mid{
   display: flex;
-flex-direction: column;
-font-size: $fontSize11px;
-margin: 0.5em;
+  flex-direction: column;
+  font-size: $fontSize11px;
+  margin: 0.5em;
 }
 
 .ap_wrapper-editor-bot{
@@ -65,6 +68,7 @@ margin: 0.5em;
     bottom: 0;
     position: fixed;
     height: 320px;
+    z-index: 2;
   }
 
   .ap_wrapper-editor-top{
@@ -122,6 +126,7 @@ margin: 0.5em;
     bottom: 0;
     position: fixed;
     height: 300px;
+    z-index: 2;
   }
 
   .ap_wrapper-editor-top{
@@ -178,6 +183,7 @@ margin: 0.5em;
     bottom: 0;
     position: fixed;
     height: 285px;
+    z-index: 2;
   }
 
   .ap_wrapper-editor-top{

@@ -1,31 +1,32 @@
 $navbar_backgroundcolor: ghostwhite;
 
-  body{
 
-  }
+body{
+  margin: 0;
+}
+.esriSimpleSliderTL {
+  visibility: hidden;
+}
+.ap__wrapper{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
 
-  .ap__wrapper{
+}
 
-  }
-
-  .ap_wrapper-editor{
-    /*width: 50%;
+  .map_div {
+    width: 100%;
+    height: 100vh;
     display: flex;
-    flex-direction: column;
     flex-wrap: wrap;
-    bottom: 0;
-    position: fixed;
-    height: 50%;
-*/
+    flex-direction: column;
+    z-index: 1;
+    position: absolute;
   }
 
-@media screen and (max-width: 480px) and (min-width:320px) and (orientation: portrait)  {
 
-}
-
-@media screen and (max-width: 480px) and (min-width:320px) and (orientation: landscape)  {
-
-}
 
 @import "components/apchq/APNavBar-component";
 

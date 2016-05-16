@@ -1,13 +1,13 @@
 $ap_search_backgroundcolor: ghostwhite;
 
 .ap__search_wrapper{
-
   width: 70%;
   height: auto;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   visibility: hidden;
+  z-index: 2;
 }
 
 .ap__search_wrapper_elements{
