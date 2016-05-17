@@ -14,7 +14,7 @@ class LayerList extends React.Component {
     }
   }
   componentDidMount(){
-    console.log(this.state.activeChecks);
+
 
   }
   onClick(check){
@@ -77,22 +77,22 @@ class LayerList extends React.Component {
     };
 
     this.state.activeChecks.forEach(visible =>{
-    
+
       switch (visible) {
         case "check_alimentador":
-          console.log(visible);
+
           visibilityStyle.check_alimentador.visibility= 'visible';
           visibilityStyle.check_alimentador.display= 'flex';
         break;
 
         case "check_cuadrillas":
-          console.log(visible);
+
           visibilityStyle.check_cuadrillas.visibility= 'visible';
             visibilityStyle.check_cuadrillas.display= 'flex';
         break;
 
         case "check_ap_modificaciones":
-          console.log(visible);
+        
           visibilityStyle.check_ap_modificaciones.visibility= 'visible';
           visibilityStyle.check_ap_modificaciones.display= 'flex';
         break;

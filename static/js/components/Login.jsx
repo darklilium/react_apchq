@@ -1,7 +1,7 @@
 import React from 'react';
-import token from '../services/token-service';
 import { genericLogin } from '../services/login-service';
 import {notifications} from '../utils/notifications';
+import { muniLogin } from '../services/login-service';
 
 class LoginApp extends React.Component {
   constructor(){
@@ -27,12 +27,24 @@ class LoginApp extends React.Component {
       notifications('Login incorrecto, intente nuevamente.', 'Login_Error', '.notification-login');
       return;
     }
+
     if (userValue.includes('vialactea\\')){
-      genericLogin(userValue, passValue, token);
-    }else{
+      console.log("Trying to access REACT_PO_WEB");
+      genericLogin(userValue, passValue);
+      return;
+
+    }if(userValue.includes('muni')){
+      console.log("Trying to access REACT_AP_WEB");
+      muniLogin(userValue, passValue);
+      return;
+
+    } else {
+      console.log("Trying to access REACT_PO_WEB");
       userValue =  'vialactea\\'+this.refs.username.value;
-      genericLogin(userValue, passValue, token);
+      genericLogin(userValue, passValue);
+
     }
+
 
   }
 
@@ -40,8 +52,8 @@ class LoginApp extends React.Component {
     return (
         <div className="login_wrapper_content">
           <article className="login_article">
-            <input className="login__input" ref="username" type="text" placeholder="miusuario" />
-            <input className="login__input" ref="password" type="password" placeholder="password" />
+            <input className="login__input" ref="username" type="text" placeholder="miusuario" defaultValue="munilacruz" />
+            <input className="login__input" ref="password" type="password" placeholder="password" defaultValue="123123"/>
             <input className="login__submit" type="submit" onClick={this.onClick} defaultValue="Entrar" />
 
           </article>
