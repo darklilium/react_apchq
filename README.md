@@ -17,16 +17,17 @@
 
 <i>English</i>
 
-<h1>Public Street Lights Project</h1>
-<strong>Objective: Management and control for the public street lights that the company offers to the city hall</strong>
+<h1>Public Street Lights Project APP</h1>
+<strong>Objective: Management information app for public street lights that the company offers to the city hall</strong>
 
 <b>Specifications:</b>
 
 <ul>
-    <li>Show the geographic location of all the public streets lights (PSL) in a map using Arcgis Technology.</li>
-    <li>Show the associated data of those elements like: connection type, lightbulb type, power (Watts), ID number, pole ID, commentaries.</li>
-    <li>Search for: lightbulb ID, energy meter, pole ID and also draw the electric network and more elements associated.</li>
-    <li>Modify the information associated to the PSL.</li>
-    <li>Export the data to Excel </li>
+    <li>Show geographic location of public streets lights (PSL) on a map using ArcgGIS Technology.</li>
+    <li>Show PSL related elements and information:  connection type, lightbulb type, power (Watts), ID Number, pole ID, commentaries.</li>
+    <li>Search for: lightbulb ID, energy meter, pole ID.
+    <li>Draw the electric network and elements associated with each PSL.</li>
+    <li>Modify the PSL information.</li>
+    <li>Export data to Excel </li>
 
 </ul>
