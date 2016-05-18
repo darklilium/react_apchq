@@ -23,21 +23,22 @@ class AlumbradoPublico extends React.Component {
       columnsMedidores: [],
       dataMedidores: [],
       columnsLuminarias: [],
-      dataLuminarias: []
-
+      dataLuminarias: [],
+      settings: []
     };
   }
 
   componentWillMount(){
-
+    this.setState({settings: my_AP_Settings.read()});
   }
-
   componentDidMount(){
+    //prod build
+    /*my_AP_Settings.delete();
+    var map = mymap.createMap("map_div","topo",this.state.settings.latx,this.state.settings.laty, this.state.settings.zoom);
+    */
+    //dev build
     var settings = my_AP_Settings.read();
-    console.log(settings);
     var map = mymap.createMap("map_div","topo",settings.latx,settings.laty, settings.zoom);
-
-
   }
   onSearch(){
     console.log("onsearch clicked");
@@ -148,7 +149,7 @@ class AlumbradoPublico extends React.Component {
     return (
     <div className="ap__wrapper">
     <div className="map_div" id="map_div"></div>
-      <APNavBar onSearch={this.onSearch} onMedidor={this.onMedidor} onLuminarias={this.onLuminarias} onChangeMap={this.onChangeMap}/>
+      <APNavBar imgLogo={this.state.settings.logo} title={this.state.settings.comuna} onSearch={this.onSearch} onMedidor={this.onMedidor} onLuminarias={this.onLuminarias} onChangeMap={this.onChangeMap}/>
       <APSearch />
       <APEditor />
       <div className="ap__wrapper-tables">

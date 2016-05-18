@@ -10,9 +10,9 @@ function my_AP_Settings(){
   return {
 
     read(){
-
       return cookieHandler.get('sttngs');
     },
+
     write(logo,comuna,latx,laty,zoom){
       my_ap_settings = {
         logo: logo,
@@ -23,6 +23,9 @@ function my_AP_Settings(){
       };
       cookieHandler.set('sttngs',my_ap_settings);
 
+    },
+    delete(){
+      cookieHandler.remove('sttngs');
     }
   };
 }

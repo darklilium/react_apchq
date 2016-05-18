@@ -1,5 +1,5 @@
 import React from 'react';
-
+import AllCapitalizeString from '../../../js/utils/AllCapitalizeString';
 //import mymap from '../../../js/services/map-service';
 
 class APNavBar extends React.Component {
@@ -20,11 +20,15 @@ class APNavBar extends React.Component {
   }
 
   render(){
+    var imgSrc = "dist/css/images/cityhall_images/logos/logo_"+ this.props.imgLogo + ".png";
+  
+    var title = "Ilustre Municipalidad de "+ AllCapitalizeString(this.props.title);
     return (
+
     <div className="ap__navbar_wrapper">
       <div className="ap_navbar_wrapper_cityhall">
-        <img className="ap_navbar_cityhall-logo"></img>
-        <h6 className="ap_navbar_cityhall-title">Ilustre Municipalidad de la Cruz</h6>
+        <img className="ap_navbar_cityhall-logo" src={imgSrc}></img>
+        <h6 className="ap_navbar_cityhall-title">{title}</h6>
       </div>
 
       <div className="ap_navbar_wrapper-buttons">

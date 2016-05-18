@@ -21,8 +21,8 @@
 }
 
 .ap_navbar_cityhall-logo{
-  background-color: azure;
-  width: 6em;
+  background-color: ghostwhite;
+  //width: 6em;
   height: inherit;
 }
 
@@ -33,13 +33,17 @@
   align-items: center;
   margin-top: 1em;
   margin-left: 1em;
+
 }
 
 .ap_navbar_cityhall-title{
   font-size: 12px;
 }
 
-
+.ap_navbar_button{
+  border: 0;
+  background-color: ghostwhite;
+}
 
 @media screen and (max-width: 480px) and (min-width:320px) and (orientation: portrait)  {
 
@@ -68,8 +72,8 @@
 }
 
 .ap_navbar_cityhall-logo{
-  background-color: azure;
-  width: 6em;
+  background-color: ghostwhite;
+  //width: 6em;
   height: inherit;
 }
 
@@ -124,11 +128,12 @@ body{
   height: inherit;
   display: flex;
   flex-direction: row-reverse;
+
 }
 
 .ap_navbar_cityhall-logo{
-  background-color: azure;
-  width: 4em;
+  background-color: ghostwhite;
+  //width: 4em;
   height: inherit;
 }
 
