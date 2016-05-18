@@ -5,7 +5,7 @@ import APSearch from '../pstreetlights/AP_Search.jsx';
 import APEditor from '../pstreetlights/AP_Editor.jsx';
 import APInfo from '../pstreetlights/AP_Info.jsx';
 import LayerList from '../../../js/components/LayerList.jsx';
-
+import my_AP_Settings from '../../../js/services/ap_services/ap_settings-service';
 class AlumbradoPublico extends React.Component {
 
   constructor(props){
@@ -24,11 +24,18 @@ class AlumbradoPublico extends React.Component {
       dataMedidores: [],
       columnsLuminarias: [],
       dataLuminarias: []
+
     };
   }
 
+  componentWillMount(){
+
+  }
+
   componentDidMount(){
-   var map = mymap.createMap("map_div","topo",-71.2905 ,-33.1009,9);
+    var settings = my_AP_Settings.read();
+    console.log(settings);
+    var map = mymap.createMap("map_div","topo",settings.latx,settings.laty, settings.zoom);
 
 
   }
@@ -102,6 +109,7 @@ class AlumbradoPublico extends React.Component {
       $('.ap__info_wrapper-medidores').css('visibility', 'hidden');
 
   }
+
   onLuminarias(){
     console.log("onLuminarias clicked");
     if (this.state.onLuminarias == 0){
@@ -131,6 +139,7 @@ class AlumbradoPublico extends React.Component {
     this.setState({onLuminarias: 0})
       $('.ap__info_wrapper-luminarias').css('visibility', 'hidden');
   }
+
   onChangeMap(){
     console.log("onChangeMap clicked");
   }

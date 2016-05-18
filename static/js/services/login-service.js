@@ -119,7 +119,7 @@ function muniLogin(user,pass){
     notifications("Logging in...","Login_Success", ".notification-login");
 
     saveSettings(user);
-    //window.location.href = "apchq.html";
+
 
     // saveLogin(user,page,module,myToken);
   })
@@ -140,13 +140,19 @@ function saveSettings(user){
   });
 
   getUserAccountSettings((map,featureSet) =>{
-
       let myRegion = regionsExtent().filter(region =>{
       return region[0] ==  featureSet.features[0].attributes.widget;
     });
+    //logo,comuna,latx,laty,zoom
+    my_AP_Settings.write(
+      featureSet.features[0].attributes.usuario, //logo
+      featureSet.features[0].attributes.widget, //region
+      myRegion[0][1], //latx
+      myRegion[0][2], //laty
+      myRegion[0][3]); //zoom
 
-    my_AP_Settings.write(featureSet.features[0].attributes.usuario,featureSet.features[0].attributes.widget,myRegion[0][1]);
-    console.log(my_AP_Settings.read());
+  
+    window.location.href = "apchq.html";
   },(error)=>{
     console.log("Error getting the user settings");
   });
