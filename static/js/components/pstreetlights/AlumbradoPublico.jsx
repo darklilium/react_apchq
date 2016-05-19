@@ -6,6 +6,8 @@ import APEditor from '../pstreetlights/AP_Editor.jsx';
 import APInfo from '../pstreetlights/AP_Info.jsx';
 import LayerList from '../../../js/components/LayerList.jsx';
 import my_AP_Settings from '../../../js/services/ap_services/ap_settings-service';
+import {addCertainLayer} from '../../../js/services/layers-service';
+
 class AlumbradoPublico extends React.Component {
 
   constructor(props){
@@ -39,7 +41,10 @@ class AlumbradoPublico extends React.Component {
     //dev build
     var settings = my_AP_Settings.read();
     var map = mymap.createMap("map_div","topo",settings.latx,settings.laty, settings.zoom);
+    addCertainLayer("ap_comuna", 11, "nombre='"+this.state.settings.comuna+"'");
+
   }
+
   onSearch(){
     console.log("onsearch clicked");
     if (this.state.onSearch==0){
@@ -51,6 +56,7 @@ class AlumbradoPublico extends React.Component {
     $('.ap__search_wrapper').css('visibility', 'hidden');
 
   }
+
   onMedidor(){
 
     console.log("onMedidor clicked");

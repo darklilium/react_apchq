@@ -1,5 +1,7 @@
 import token from '../services/token-service';
 import myinfotemplate from '../utils/infoTemplates';
+import mymap from '../services/map-service';
+
 function myLayers(){
   const serviceMain = 'http://gisred.chilquinta/arcgis/';
   //change this for external connection:
@@ -8,17 +10,26 @@ function myLayers(){
   var graphicLayer = new esri.layers.GraphicsLayer();
 
   return {
-  //The following layers and services are just for Chilquinta APP. (interrupciones.html and interruptions.js)
-    //Featurelayer for orders per sed (with graphics)
+    //The following layers are for common use in any gisred app.
     read_tokenURL(){
       return serviceMain + "tokens/generateToken";
     },
+
+    read_logAccess(){  /*using*/
+        return serviceURL + "Admin/LogAccesos/FeatureServer/2?f=json&token=" + token.read();
+    },
+    //chq mapabase
     read_mapabase(){
       return serviceURL + "MapaBase/MapServer?f=json&token=" + token.read();
     },
+    //dmps adresses
     read_cartography(){
       return serviceURL + "Cartografia/DMPS/MapServer/0?f=json&token=" + token.read();
     },
+
+    //The following layers and services are just for Interruptions app. (interrupciones.html and interruptions.js)
+    //Featurelayer for orders per sed (with graphics)
+
     read_layer_interr_sed(){ /*using : Layer: SED*/
       return serviceURL + "Interrupciones/PO_test/MapServer/0?f=json&token=" + token.read();
     },
@@ -82,9 +93,11 @@ function myLayers(){
     read_layerAlimentador(){  /*using*/
         return serviceURL + "Chilquinta_006/Tramos_006/MapServer?f=json&token=" + token.read();
     },
-    read_logAccess(){  /*using*/
-        return serviceURL + "Admin/LogAccesos/FeatureServer/2?f=json&token=" + token.read();
-    },
+
+    //layers for AP CHQ
+    read_ap_comuna(){
+      return serviceURL + "AP_Municipal/AP_MUNICIPAL/MapServer/4?f=json&token=" + token.read();
+    }
 
   };
 }
@@ -130,6 +143,12 @@ function setLayers(){
       //interrClienteSED.refreshInterval = 1;
       cuadrillasLayer.setImageFormat("png32");
       return cuadrillasLayer;
+    },
+    ap_comuna(whereRegion, layerNumber){
+      var apComunaLayer = new esri.layers.FeatureLayer(myLayers().read_ap_comuna(),{id:"CHQAPComuna"});
+      apComunaLayer.setDefinitionExpression(whereRegion);
+      console.log(whereRegion);
+      return apComunaLayer;
     }
   }
 }
@@ -154,6 +173,33 @@ function layersActivated(){
   }
 }
 
+// TO DO: this function add the default and not defaults layer (from the layerlist) in the app.
+function addCertainLayer(layerNameToAdd, order, where){
+  var mapp = mymap.getMap();
+  var myLayerToAdd;
+
+  console.log("adding layer: ", layerNameToAdd);
+
+  switch (layerNameToAdd) {
+    case 'ap_comuna':
+      myLayerToAdd = setLayers().ap_comuna(where, 4);
+      break;
+    default:
+
+  }
+
+  mapp.addLayer(myLayerToAdd);
+  /*
+  //Set here if you add more layers in the layerlist. Starting with a index position of 10.
+  if (check_alimentador.checked){
+    mapp.addLayer(setLayers().alimentadores(), 1);
+  }
+  if (check_ap_modificaciones.checked){
+    //mapp.addLayer(setLayers().check_ap_modificaciones(), 1);
+  }
+*/
+
+}
 
 export default myLayers();
-export {setLayers,layersActivated};
+export {setLayers,layersActivated,addCertainLayer};
