@@ -97,6 +97,11 @@ function myLayers(){
     //layers for AP CHQ
     read_ap_comuna(){
       return serviceURL + "AP_Municipal/AP_MUNICIPAL/MapServer/4?f=json&token=" + token.read();
+    },
+    //19-05-2016
+    read_ap_modificaciones(){
+      return serviceURL + "AP_Municipal/AP_MUNICIPAL/MapServer?f=json&token=" + token.read();
+
     }
 
   };
@@ -106,7 +111,7 @@ function myLayers(){
 function setLayers(){
   return {
     alimentadores(){
-      var layerAlimentador = new esri.layers.ArcGISDynamicMapServiceLayer(myLayers().read_layerAlimentador(),{id:"CHQAlimentadores"});
+      var layerAlimentador = new esri.layers.ArcGISDynamicMapServiceLayer(myLayers().read_layerAlimentador(),{id:"gis_alimentadores"});
       layerAlimentador.setImageFormat("png32");
       layerAlimentador.setVisibleLayers([0]);
       layerAlimentador.setInfoTemplates({
@@ -116,7 +121,7 @@ function setLayers(){
       return layerAlimentador;
     },
     interrupciones(){
-      var interrClienteSED = new esri.layers.ArcGISDynamicMapServiceLayer(myLayers().read_dyn_layerClieSED(),{id:"CHQInterruptions"});
+      var interrClienteSED = new esri.layers.ArcGISDynamicMapServiceLayer(myLayers().read_dyn_layerClieSED(),{id:"po_interrupciones"});
       interrClienteSED.setInfoTemplates({
         3: {infoTemplate: myinfotemplate.getNisInfo()},
         1: {infoTemplate: myinfotemplate.getIsolatedNisFailure()},
@@ -133,7 +138,7 @@ function setLayers(){
         return interrClienteSED;
     },
     cuadrillas(){
-      var cuadrillasLayer = new esri.layers.ArcGISDynamicMapServiceLayer(myLayers().read_dyn_layerClieSED(),{id:"CHQCuadrillas"});
+      var cuadrillasLayer = new esri.layers.ArcGISDynamicMapServiceLayer(myLayers().read_dyn_layerClieSED(),{id:"po_cuadrillas"});
       /*cuadrillasLayer.setInfoTemplates({
         3: {infoTemplate: myinfotemplate.getNisInfo()},
         1: {infoTemplate: myinfotemplate.getIsolatedNisFailure()},
@@ -144,11 +149,22 @@ function setLayers(){
       cuadrillasLayer.setImageFormat("png32");
       return cuadrillasLayer;
     },
-    ap_comuna(whereRegion, layerNumber){
-      var apComunaLayer = new esri.layers.FeatureLayer(myLayers().read_ap_comuna(),{id:"CHQAPComuna"});
+    ap_comuna(whereRegion){
+      var apComunaLayer = new esri.layers.FeatureLayer(myLayers().read_ap_comuna(),{id:"ap_comuna"});
       apComunaLayer.setDefinitionExpression(whereRegion);
       console.log(whereRegion);
+
       return apComunaLayer;
+    },
+    ap_modificaciones(whereRegion, layerNumber){
+      var apModificacionesLayer = new esri.layers.ArcGISDynamicMapServiceLayer(myLayers().read_ap_modificaciones(),{id:"ap_modificaciones"});
+      apModificacionesLayer.setImageFormat("png32");
+      apModificacionesLayer.setVisibleLayers([0]);
+      var layerDefinitions = [];
+      layerDefinitions[0] = whereRegion;
+      apModificacionesLayer.setLayerDefinitions(layerDefinitions);
+
+      return apModificacionesLayer;
     }
   }
 }
@@ -182,24 +198,31 @@ function addCertainLayer(layerNameToAdd, order, where){
 
   switch (layerNameToAdd) {
     case 'ap_comuna':
+
       myLayerToAdd = setLayers().ap_comuna(where, 4);
       break;
-    default:
 
+
+    case 'po_interrupciones':
+      myLayerToAdd = setLayers().interrupciones();
+      break;
+
+    case 'gis_alimentadores':
+      myLayerToAdd = setLayers().alimentadores();
+      break;
+    default:
   }
 
   mapp.addLayer(myLayerToAdd);
-  /*
-  //Set here if you add more layers in the layerlist. Starting with a index position of 10.
+
+  //Set here if you add more layers in the layerlist.
   if (check_alimentador.checked){
-    mapp.addLayer(setLayers().alimentadores(), 1);
+    mapp.addLayer(setLayers().alimentadores(),1);
   }
   if (check_ap_modificaciones.checked){
-    //mapp.addLayer(setLayers().check_ap_modificaciones(), 1);
+    mapp.addLayer(setLayers().check_ap_modificaciones(), 1);
   }
-*/
 
 }
-
 export default myLayers();
 export {setLayers,layersActivated,addCertainLayer};

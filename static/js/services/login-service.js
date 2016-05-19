@@ -151,7 +151,7 @@ function saveSettings(user){
       myRegion[0][2], //laty
       myRegion[0][3]); //zoom
 
-  
+    
     window.location.href = "apchq.html";
   },(error)=>{
     console.log("Error getting the user settings");
