@@ -47,11 +47,16 @@ class LayerList extends React.Component {
         break;
 
       case "check_ap_modificaciones":
-      let myRegionSaved = my_AP_Settings.read();
+      //dev build
+        let myRegionSaved = my_AP_Settings.read();
       console.log(myRegionSaved.comuna);
-
       var addModificacionesLayer = setLayers().ap_modificaciones("Comuna='"+myRegionSaved.comuna+"'",10);
 
+      //prod build
+      /*
+      console.log(this.props.settings.comuna);
+      var addModificacionesLayer = setLayers().ap_modificaciones("Comuna='"+this.props.settings.comuna+"'",10);
+      */
           if (this.refs.check_ap_modificaciones.checked){
             mapp.addLayer(addModificacionesLayer, 10);
           return;

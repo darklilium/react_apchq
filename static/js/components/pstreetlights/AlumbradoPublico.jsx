@@ -35,12 +35,15 @@ class AlumbradoPublico extends React.Component {
   }
   componentDidMount(){
     //prod build
-    /*my_AP_Settings.delete();
+    /*
+    my_AP_Settings.delete();
     var map = mymap.createMap("map_div","topo",this.state.settings.latx,this.state.settings.laty, this.state.settings.zoom);
     */
     //dev build
+
     var settings = my_AP_Settings.read();
     var map = mymap.createMap("map_div","topo",settings.latx,settings.laty, settings.zoom);
+    
     addCertainLayer("ap_comuna", 11, "nombre='"+this.state.settings.comuna+"'");
 
   }
@@ -166,7 +169,7 @@ class AlumbradoPublico extends React.Component {
           <APInfo title={"Luminarias"} columns={this.state.columnsLuminarias} data={this.state.dataLuminarias}/>
         </div>
       </div>
-      <LayerList show={["check_ap_modificaciones"]}/>
+      <LayerList show={["check_ap_modificaciones"]} settings={this.state.settings}/>
 
 
     </div>
