@@ -43,8 +43,10 @@ class AlumbradoPublico extends React.Component {
 
     var settings = my_AP_Settings.read();
     var map = mymap.createMap("map_div","topo",settings.latx,settings.laty, settings.zoom);
-    
+
     addCertainLayer("ap_comuna", 11, "nombre='"+this.state.settings.comuna+"'");
+    addCertainLayer("ap_luminarias", 11, "COMUNA='"+this.state.settings.comuna+"'");
+
 
   }
 
@@ -170,7 +172,7 @@ class AlumbradoPublico extends React.Component {
         </div>
       </div>
       <LayerList show={["check_ap_modificaciones"]} settings={this.state.settings}/>
-
+      <div id="myDomNode"></div>
 
     </div>
     );

@@ -1,6 +1,7 @@
 import token from '../services/token-service';
 import myinfotemplate from '../utils/infoTemplates';
 import mymap from '../services/map-service';
+import {ap_infoWindow} from '../utils/makeInfoWindow';
 
 function myLayers(){
   const serviceMain = 'http://gisred.chilquinta/arcgis/';
@@ -102,6 +103,10 @@ function myLayers(){
     read_ap_modificaciones(){
       return serviceURL + "AP_Municipal/AP_MUNICIPAL/MapServer?f=json&token=" + token.read();
 
+    },
+    read_ap_luminarias(){
+      return serviceURL + "AP_Municipal/AP_MUNICIPAL/FeatureServer/1?f=json&token=" + token.read();
+
     }
 
   };
@@ -165,6 +170,27 @@ function setLayers(){
       apModificacionesLayer.setLayerDefinitions(layerDefinitions);
 
       return apModificacionesLayer;
+    },
+    ap_luminarias(whereRegion, layerNumber){
+      var apLuminariasLayer = new esri.layers.FeatureLayer(myLayers().read_ap_luminarias(),{id:"ap_luminarias",
+      mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
+      minScale: 9000,
+      outFields: ["*"]});
+      apLuminariasLayer.setDefinitionExpression(whereRegion);
+
+      apLuminariasLayer.on('mouse-over',(evt)=>{
+        
+        ap_infoWindow(evt.graphic.attributes['ID_LUMINARIA'],
+          evt.graphic.attributes['ROTULO'],
+          evt.graphic.attributes['TIPO_CONEXION'],
+          evt.graphic.attributes['TIPO'],
+          evt.graphic.attributes['PROPIEDAD'],
+          evt.graphic.attributes['MEDIDO_TERRENO'],
+          evt.graphic.geometry);
+
+      });
+
+      return apLuminariasLayer;
     }
   }
 }
@@ -209,6 +235,10 @@ function addCertainLayer(layerNameToAdd, order, where){
 
     case 'gis_alimentadores':
       myLayerToAdd = setLayers().alimentadores();
+      break;
+
+    case 'ap_luminarias':
+      myLayerToAdd = setLayers().ap_luminarias(where,5);
       break;
     default:
   }

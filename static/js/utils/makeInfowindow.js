@@ -113,44 +113,58 @@ function makeInfoWindowPerGridInfo(type,
                                   time,
                                   ETR,
                                   geometry){
-var map = mymap.getMap();
+  var map = mymap.getMap();
 
-var contentVars = {
-  type: type,
-  order_id: order_id,
-  incident_id: incident_id,
-  cause: cause,
-  commentary:commentary,
-  state: state,
-  creaDate: creaDate,
-  assiDate: assiDate,
-  deliDate: deliDate,
-  routDate: routDate,
-  arriDate: arriDate,
-  time: time,
-  ETR: ETR,
-  geometry: geometry
-};
+  var contentVars = {
+    type: type,
+    order_id: order_id,
+    incident_id: incident_id,
+    cause: cause,
+    commentary:commentary,
+    state: state,
+    creaDate: creaDate,
+    assiDate: assiDate,
+    deliDate: deliDate,
+    routDate: routDate,
+    arriDate: arriDate,
+    time: time,
+    ETR: ETR,
+    geometry: geometry
+  };
 
-map.infoWindow.setTitle("Tipo : " + contentVars.type);
+  map.infoWindow.setTitle("Tipo : " + contentVars.type);
 
-var content = `<div style=padding-top: 10px;>ID Orden: ${contentVars.order_id}<br /></div>
-<div style=padding-top: 10px;>ID Incidencia: ${contentVars.incident_id}<br /></div>
-<div style=padding-top: 10px;>Causa: ${contentVars.cause}<br /></div>
-<div style=padding-top: 10px;>Comentario: ${contentVars.commentary}<br /></div>
-<div style=padding-top: 10px;>Estado: ${contentVars.state}<br /></div>
-<div style=padding-top: 10px;>Fecha Creación: ${contentVars.creaDate}<br /></div>
-<div style=padding-top: 10px;>Fecha Asignación: ${contentVars.assiDate}<br /></div>
-<div style=padding-top: 10px;>Fecha Despacho: ${contentVars.deliDate}<br /></div>
-<div style=padding-top: 10px;>Fecha Ruta: ${contentVars.routDate}<br /></div>
-<div style=padding-top: 10px;>Fecha Llegada: ${contentVars.arriDate}<br /></div>
-<div style=padding-top: 10px;>Tiempo: ${contentVars.time}<br/></div>
-<div style=padding-top: 10px;>ETR: ${contentVars.ETR}<br/></div>`;
+  var content = `<div style=padding-top: 10px;>ID Orden: ${contentVars.order_id}<br /></div>
+  <div style=padding-top: 10px;>ID Incidencia: ${contentVars.incident_id}<br /></div>
+  <div style=padding-top: 10px;>Causa: ${contentVars.cause}<br /></div>
+  <div style=padding-top: 10px;>Comentario: ${contentVars.commentary}<br /></div>
+  <div style=padding-top: 10px;>Estado: ${contentVars.state}<br /></div>
+  <div style=padding-top: 10px;>Fecha Creación: ${contentVars.creaDate}<br /></div>
+  <div style=padding-top: 10px;>Fecha Asignación: ${contentVars.assiDate}<br /></div>
+  <div style=padding-top: 10px;>Fecha Despacho: ${contentVars.deliDate}<br /></div>
+  <div style=padding-top: 10px;>Fecha Ruta: ${contentVars.routDate}<br /></div>
+  <div style=padding-top: 10px;>Fecha Llegada: ${contentVars.arriDate}<br /></div>
+  <div style=padding-top: 10px;>Tiempo: ${contentVars.time}<br/></div>
+  <div style=padding-top: 10px;>ETR: ${contentVars.ETR}<br/></div>`;
 
-map.infoWindow.resize(450, 250);
-map.infoWindow.setContent(esri.substitute(esri.geometry.webMercatorToGeographic(geometry), content));
-map.infoWindow.show(geometry, map.getInfoWindowAnchor(geometry));
+  map.infoWindow.resize(450, 250);
+  map.infoWindow.setContent(esri.substitute(esri.geometry.webMercatorToGeographic(geometry), content));
+  map.infoWindow.show(geometry, map.getInfoWindowAnchor(geometry));
 }
 
+function ap_infoWindow(lightID, poleNumber, connectionType, type, property,meansured, geometry){
+  var map = mymap.getMap();
+  map.infoWindow.setTitle("ID Luminaria : " + lightID);
+  var content = `<div style=padding-top: 10px;>ROTULO: ${poleNumber}<br /></div>
+  <div style=padding-top: 10px;>Tipo Conexión: ${connectionType}<br /></div>
+  <div style=padding-top: 10px;>Tipo: ${type}<br /></div>
+  <div style=padding-top: 10px;>Propiedad: ${property}<br /></div>
+  <div style=padding-top: 10px;>Medido: ${meansured}<br /></div>`;
+  map.infoWindow.resize(250, 350);
+  map.infoWindow.setContent(esri.substitute(esri.geometry.webMercatorToGeographic(geometry), content));
+  map.infoWindow.show(geometry, map.getInfoWindowAnchor(geometry));
 
-export {makeInfoWindow, makeInfoWindowPerSED, makeInfoWindowPerSEDInterrupted,makeInfoWindowPerNisInfo,makeInfoWindowPerGridInfo };
+
+}
+
+export {makeInfoWindow, makeInfoWindowPerSED, makeInfoWindowPerSEDInterrupted,makeInfoWindowPerNisInfo,makeInfoWindowPerGridInfo,ap_infoWindow };
