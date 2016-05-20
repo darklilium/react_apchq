@@ -186,21 +186,27 @@ class AlumbradoPublico extends React.Component {
     let region = this.state.settings.comuna;
     return (
     <div className="ap__wrapper">
-    <div className="map_div" id="map_div"></div>
-      <APNavBar imgLogo={this.state.settings.logo} title={this.state.settings.comuna} onSearch={this.onSearch} onMedidor={this.onMedidor} onLuminarias={this.onLuminarias} onChangeMap={this.onChangeMap}/>
-      <APSearch region={region}/>
-    <div className="ap_search_notifications"></div>
-      <APEditor />
-      <div className="ap__wrapper-tables">
-        <div className="ap__info_wrapper-medidores">
-          <APInfo title={"Medidores"} columns={this.state.columnsMedidores} data={this.state.dataMedidores}/>
-        </div>
-        <div className="ap__info_wrapper-luminarias">
-          <APInfo title={"Luminarias"} columns={this.state.columnsLuminarias} data={this.state.dataLuminarias}/>
-        </div>
-      </div>
 
-      <LayerList show={["check_ap_modificaciones"]} settings={this.state.settings}/>
+    <div className="map_div" id="map_div"></div>
+
+    <APNavBar imgLogo={this.state.settings.logo} title={this.state.settings.comuna} onSearch={this.onSearch} onMedidor={this.onMedidor} onLuminarias={this.onLuminarias} onChangeMap={this.onChangeMap}/>
+
+    <APSearch region={region}/>
+
+    <div className="ap_search_notifications"></div>
+
+    <APEditor />
+
+    <div className="ap__wrapper-tables">
+      <div className="ap__info_wrapper-medidores">
+        <APInfo title={"Medidores"} columns={this.state.columnsMedidores} data={this.state.dataMedidores}/>
+      </div>
+      <div className="ap__info_wrapper-luminarias">
+        <APInfo title={"Luminarias"} columns={this.state.columnsLuminarias} data={this.state.dataLuminarias}/>
+      </div>
+    </div>
+
+    <LayerList show={["check_ap_modificaciones"]} settings={this.state.settings}/>
 
 
     </div>

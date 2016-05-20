@@ -5,23 +5,15 @@ import AllCapitalizeString from '../../../js/utils/AllCapitalizeString';
 class APNavBar extends React.Component {
   constructor(props){
     super(props);
-    this.onSearch = this.onSearch.bind(this);
-    this.onMedidor = this.onMedidor.bind(this);
+  
   }
 
 
-  onSearch(){
-    console.log("clicking button",i);
 
-  }
-  onMedidor(){
-    console.log("clicking button",i);
-
-  }
 
   render(){
     var imgSrc = "dist/css/images/cityhall_images/logos/logo_"+ this.props.imgLogo + ".png";
-  
+
     var title = "Ilustre Municipalidad de "+ AllCapitalizeString(this.props.title);
     return (
 
