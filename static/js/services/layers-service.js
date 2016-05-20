@@ -158,7 +158,6 @@ function setLayers(){
       var apComunaLayer = new esri.layers.FeatureLayer(myLayers().read_ap_comuna(),{id:"ap_comuna"});
       apComunaLayer.setDefinitionExpression(whereRegion);
       console.log(whereRegion);
-
       return apComunaLayer;
     },
     ap_modificaciones(whereRegion, layerNumber){
@@ -179,7 +178,7 @@ function setLayers(){
       apLuminariasLayer.setDefinitionExpression(whereRegion);
 
       apLuminariasLayer.on('mouse-over',(evt)=>{
-        
+
         ap_infoWindow(evt.graphic.attributes['ID_LUMINARIA'],
           evt.graphic.attributes['ROTULO'],
           evt.graphic.attributes['TIPO_CONEXION'],
@@ -198,7 +197,7 @@ function setLayers(){
 //TO DO: this function can be used to know the active layers in the map.
 function layersActivated(){
   var activeLayers= [];
-  var mapp = map.getMap();
+  var mapp = mymap.getMap();
   var activeLayersLength = mapp.layerIds.length;
   //console.log(mapp.layerIds.length);
   return {
@@ -208,7 +207,7 @@ function layersActivated(){
         activeLayers.push(currentLayer.id);
         //alert("id: " + currentLayer.id);
       }
-      //console.log(activeLayers);
+      console.log(activeLayers);
       return activeLayers;
 
     }
@@ -223,23 +222,26 @@ function addCertainLayer(layerNameToAdd, order, where){
   console.log("adding layer: ", layerNameToAdd);
 
   switch (layerNameToAdd) {
+
     case 'ap_comuna':
-
       myLayerToAdd = setLayers().ap_comuna(where, 4);
-      break;
-
+    break;
 
     case 'po_interrupciones':
       myLayerToAdd = setLayers().interrupciones();
-      break;
+    break;
 
     case 'gis_alimentadores':
       myLayerToAdd = setLayers().alimentadores();
-      break;
+    break;
 
     case 'ap_luminarias':
       myLayerToAdd = setLayers().ap_luminarias(where,5);
-      break;
+    break;
+
+    case 'ap_modificaciones':
+      myLayerToAdd = setLayers().ap_modificaciones(where,5);
+    break;
     default:
   }
 
@@ -250,7 +252,7 @@ function addCertainLayer(layerNameToAdd, order, where){
     mapp.addLayer(setLayers().alimentadores(),1);
   }
   if (check_ap_modificaciones.checked){
-    mapp.addLayer(setLayers().check_ap_modificaciones(), 1);
+    mapp.addLayer(setLayers().ap_modificaciones(), 1);
   }
 
 }

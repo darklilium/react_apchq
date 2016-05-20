@@ -7,6 +7,7 @@ import APInfo from '../pstreetlights/AP_Info.jsx';
 import LayerList from '../../../js/components/LayerList.jsx';
 import my_AP_Settings from '../../../js/services/ap_services/ap_settings-service';
 import {addCertainLayer} from '../../../js/services/layers-service';
+import {layersActivated} from '../../../js/services/layers-service';
 
 class AlumbradoPublico extends React.Component {
 
@@ -26,7 +27,9 @@ class AlumbradoPublico extends React.Component {
       dataMedidores: [],
       columnsLuminarias: [],
       dataLuminarias: [],
-      settings: []
+      settings: [],
+      mapClick : 0
+
     };
   }
 
@@ -154,6 +157,28 @@ class AlumbradoPublico extends React.Component {
 
   onChangeMap(){
     console.log("onChangeMap clicked");
+  var myActiveLayers = layersActivated().getMapLayers();
+  console.log("mis layers",myActiveLayers);
+    var mapp = mymap.getMap();
+
+    if (this.state.mapClick==0){
+      this.setState({ mapClick : 1 });
+      mymap.changeBasemap("hybrid");
+      addCertainLayer("ap_comuna", 11, "nombre='"+this.state.settings.comuna+"'");
+      addCertainLayer("ap_luminarias", 11, "COMUNA='"+this.state.settings.comuna+"'");
+
+    }else if(this.state.mapClick==1){
+      this.setState({ mapClick : 2 });
+      mymap.changeBasemap("Chilquinta");
+      addCertainLayer("ap_comuna", 11, "nombre='"+this.state.settings.comuna+"'");
+      addCertainLayer("ap_luminarias", 11, "COMUNA='"+this.state.settings.comuna+"'");
+
+    }else {
+      this.setState({ mapClick : 0 });
+      mymap.changeBasemap("topo");
+      addCertainLayer("ap_comuna", 11, "nombre='"+this.state.settings.comuna+"'");
+      addCertainLayer("ap_luminarias", 11, "COMUNA='"+this.state.settings.comuna+"'");
+    }
   }
 
   render(){

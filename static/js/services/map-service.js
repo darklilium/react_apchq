@@ -21,7 +21,7 @@ var map = {
     changeBasemap: function(bm){
       //get all the active layers on the map:
       var myActiveLayers = layersActivated().getMapLayers();
-      console.log(myActiveLayers);
+      console.log("myActive layers", myActiveLayers);
       console.log("my basemap is", bm);
 
       /* Removing all the layers first and then if chilquinta add the layer simulating a basemap.
