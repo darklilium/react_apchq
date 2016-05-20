@@ -5,7 +5,7 @@ import AllCapitalizeString from '../../../js/utils/AllCapitalizeString';
 class APNavBar extends React.Component {
   constructor(props){
     super(props);
-  
+
   }
 
 
@@ -35,6 +35,9 @@ class APNavBar extends React.Component {
         </button>
         <button className="ap_navbar_button btn btn-default" title="Cambiar mapa" type="button" onClick={this.props.onChangeMap}>
             <span><i className="fa fa-globe"></i></span>
+        </button>
+        <button className="ap_navbar_button btn btn-default" title="Borrar búsquedas y dibujos" type="button" onClick={this.props.onClearMap}>
+            <span><i className="fa fa-eraser"></i></span>
         </button>
       </div>
     </div>

@@ -18,6 +18,7 @@ class AlumbradoPublico extends React.Component {
     this.onMedidor = this.onMedidor.bind(this);
     this.onLuminarias = this.onLuminarias.bind(this);
     this.onChangeMap = this.onChangeMap.bind(this);
+    this.onClearMap = this.onClearMap.bind(this);
 
     this.state ={
       onSearch: 0,
@@ -182,6 +183,12 @@ class AlumbradoPublico extends React.Component {
       }
   }
 
+  onClearMap(){
+    console.log("clearing map");
+    var map = mymap.getMap();
+    map.graphics.clear();
+    $('.ap_search_notifications').empty().css('visibility', 'hidden');
+  }
   render(){
     let region = this.state.settings.comuna;
     return (
@@ -189,7 +196,12 @@ class AlumbradoPublico extends React.Component {
 
     <div className="map_div" id="map_div"></div>
 
-    <APNavBar imgLogo={this.state.settings.logo} title={this.state.settings.comuna} onSearch={this.onSearch} onMedidor={this.onMedidor} onLuminarias={this.onLuminarias} onChangeMap={this.onChangeMap}/>
+    <APNavBar imgLogo={this.state.settings.logo} title={this.state.settings.comuna}
+              onSearch={this.onSearch}
+              onMedidor={this.onMedidor}
+              onLuminarias={this.onLuminarias}
+              onChangeMap={this.onChangeMap}
+              onClearMap={this.onClearMap}/>
 
     <APSearch region={region}/>
 
