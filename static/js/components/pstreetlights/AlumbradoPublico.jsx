@@ -9,6 +9,7 @@ import my_AP_Settings from '../../../js/services/ap_services/ap_settings-service
 import {addCertainLayer} from '../../../js/services/layers-service';
 import {layersActivated} from '../../../js/services/layers-service';
 
+
 class AlumbradoPublico extends React.Component {
 
   constructor(props){
@@ -62,7 +63,7 @@ class AlumbradoPublico extends React.Component {
     }
     this.setState({ onSearch : 0 });
     $('.ap__search_wrapper').css('visibility', 'hidden');
-
+    $('.ap_search_notifications').empty().css('visibility', 'hidden');
   }
 
   onMedidor(){
@@ -157,36 +158,38 @@ class AlumbradoPublico extends React.Component {
 
   onChangeMap(){
     console.log("onChangeMap clicked");
-  var myActiveLayers = layersActivated().getMapLayers();
-  console.log("mis layers",myActiveLayers);
-    var mapp = mymap.getMap();
+    var myActiveLayers = layersActivated().getMapLayers();
+    console.log("mis layers",myActiveLayers);
+      var mapp = mymap.getMap();
 
-    if (this.state.mapClick==0){
-      this.setState({ mapClick : 1 });
-      mymap.changeBasemap("hybrid");
-      addCertainLayer("ap_comuna", 11, "nombre='"+this.state.settings.comuna+"'");
-      addCertainLayer("ap_luminarias", 11, "COMUNA='"+this.state.settings.comuna+"'");
+      if (this.state.mapClick==0){
+        this.setState({ mapClick : 1 });
+        mymap.changeBasemap("hybrid");
+        addCertainLayer("ap_comuna", 11, "nombre='"+this.state.settings.comuna+"'");
+        addCertainLayer("ap_luminarias", 11, "COMUNA='"+this.state.settings.comuna+"'");
 
-    }else if(this.state.mapClick==1){
-      this.setState({ mapClick : 2 });
-      mymap.changeBasemap("Chilquinta");
-      addCertainLayer("ap_comuna", 11, "nombre='"+this.state.settings.comuna+"'");
-      addCertainLayer("ap_luminarias", 11, "COMUNA='"+this.state.settings.comuna+"'");
+      }else if(this.state.mapClick==1){
+        this.setState({ mapClick : 2 });
+        mymap.changeBasemap("Chilquinta");
+        addCertainLayer("ap_comuna", 11, "nombre='"+this.state.settings.comuna+"'");
+        addCertainLayer("ap_luminarias", 11, "COMUNA='"+this.state.settings.comuna+"'");
 
-    }else {
-      this.setState({ mapClick : 0 });
-      mymap.changeBasemap("topo");
-      addCertainLayer("ap_comuna", 11, "nombre='"+this.state.settings.comuna+"'");
-      addCertainLayer("ap_luminarias", 11, "COMUNA='"+this.state.settings.comuna+"'");
-    }
+      }else {
+        this.setState({ mapClick : 0 });
+        mymap.changeBasemap("topo");
+        addCertainLayer("ap_comuna", 11, "nombre='"+this.state.settings.comuna+"'");
+        addCertainLayer("ap_luminarias", 11, "COMUNA='"+this.state.settings.comuna+"'");
+      }
   }
 
   render(){
+    let region = this.state.settings.comuna;
     return (
     <div className="ap__wrapper">
     <div className="map_div" id="map_div"></div>
       <APNavBar imgLogo={this.state.settings.logo} title={this.state.settings.comuna} onSearch={this.onSearch} onMedidor={this.onMedidor} onLuminarias={this.onLuminarias} onChangeMap={this.onChangeMap}/>
-      <APSearch />
+      <APSearch region={region}/>
+    <div className="ap_search_notifications"></div>
       <APEditor />
       <div className="ap__wrapper-tables">
         <div className="ap__info_wrapper-medidores">
@@ -196,8 +199,9 @@ class AlumbradoPublico extends React.Component {
           <APInfo title={"Luminarias"} columns={this.state.columnsLuminarias} data={this.state.dataLuminarias}/>
         </div>
       </div>
+
       <LayerList show={["check_ap_modificaciones"]} settings={this.state.settings}/>
-      <div id="myDomNode"></div>
+
 
     </div>
     );

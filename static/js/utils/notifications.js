@@ -71,7 +71,25 @@ function notifications(message, type, myClass){
       .css('background-color','yellow')
       break;
 
-      default:
+    //AP MODULE CASES
+    case 'AP_ROTULO_NOTFOUND':
+      $(myClass)
+      .empty()
+      .css('visibility','visible')
+      .append('<strong>'+message+'</strong>')
+      .css('background-color','lightcoral')
+      break;
+
+    case 'AP_ROTULO_VALUENOTFOUND':
+      $(myClass)
+      .empty()
+      .css('visibility','visible')
+      .append('<strong>'+message+'</strong>')
+      .css('background-color','yellow')
+      break;
+
+    default:
+
 
   }
 }

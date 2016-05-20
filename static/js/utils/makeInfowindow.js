@@ -167,4 +167,18 @@ function ap_infoWindow(lightID, poleNumber, connectionType, type, property,means
 
 }
 
-export {makeInfoWindow, makeInfoWindowPerSED, makeInfoWindowPerSEDInterrupted,makeInfoWindowPerNisInfo,makeInfoWindowPerGridInfo,ap_infoWindow };
+function ap_infoWindow_rotulo(poleNumber){
+/*  var map = mymap.getMap();
+  map.infoWindow.setTitle("ROTULO : " + poleNumber);
+  var content = `<div style=padding-top: 10px;>ROTULO: ${poleNumber}<br /></div>
+  <div style=padding-top: 10px;>Tipo Conexión: ${connectionType}<br /></div>
+  <div style=padding-top: 10px;>Tipo: ${type}<br /></div>
+  <div style=padding-top: 10px;>Propiedad: ${property}<br /></div>
+  <div style=padding-top: 10px;>Medido: ${meansured}<br /></div>`;
+  map.infoWindow.resize(250, 350);
+  map.infoWindow.setContent(esri.substitute(esri.geometry.webMercatorToGeographic(geometry), content));
+  map.infoWindow.show(geometry, map.getInfoWindowAnchor(geometry));
+*/
+}
+export {makeInfoWindow, makeInfoWindowPerSED, makeInfoWindowPerSEDInterrupted,makeInfoWindowPerNisInfo,
+        makeInfoWindowPerGridInfo,ap_infoWindow,ap_infoWindow_rotulo};

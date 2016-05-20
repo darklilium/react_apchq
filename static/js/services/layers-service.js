@@ -107,6 +107,11 @@ function myLayers(){
     read_ap_luminarias(){
       return serviceURL + "AP_Municipal/AP_MUNICIPAL/FeatureServer/1?f=json&token=" + token.read();
 
+    },
+    //20/05/2016
+    read_ap_rotulos(){
+      return serviceURL + "Chilquinta_006/Nodos_006/MapServer/0?f=json&token=" + token.read();
+
     }
 
   };
