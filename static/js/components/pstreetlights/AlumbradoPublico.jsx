@@ -8,7 +8,8 @@ import LayerList from '../../../js/components/LayerList.jsx';
 import my_AP_Settings from '../../../js/services/ap_services/ap_settings-service';
 import {addCertainLayer} from '../../../js/services/layers-service';
 import {layersActivated} from '../../../js/services/layers-service';
-
+import {ap_getDataMedidores} from '../../../js/services/ap_services/ap_getData-service';
+import {ap_getDataLumPerMed} from '../../../js/services/ap_services/ap_getData-service';
 
 class AlumbradoPublico extends React.Component {
 
@@ -37,6 +38,7 @@ class AlumbradoPublico extends React.Component {
 
   componentWillMount(){
     this.setState({settings: my_AP_Settings.read()});
+
   }
   componentDidMount(){
     //prod build
@@ -52,7 +54,9 @@ class AlumbradoPublico extends React.Component {
     addCertainLayer("ap_comuna", 11, "nombre='"+this.state.settings.comuna+"'");
     addCertainLayer("ap_luminarias", 11, "COMUNA='"+this.state.settings.comuna+"'");
 
-
+    ap_getDataMedidores(this.state.settings.comuna,(callback)=>{
+      this.setState({dataMedidores:callback });
+    });
   }
 
   onSearch(){
@@ -68,58 +72,21 @@ class AlumbradoPublico extends React.Component {
   }
 
   onMedidor(){
-
+    var that = this;
     console.log("onMedidor clicked");
 
+    this.setState({columnsMedidores: ['ID EQUIPO', 'NIS', 'CANT LUMINARIAS', 'CANT TRAMOS', 'TIPO', 'ROTULO'] });
     if (this.state.onMedidor == 0){
       this.setState({onMedidor: 1})
 
-      if(this.state.onLuminarias==0){
-        $('.ap__wrapper-tables').css('flex-direction', 'column-reverse');
-      }else{
+        if(this.state.onLuminarias==0){
+          $('.ap__wrapper-tables').css('flex-direction', 'column-reverse');
+        }else{
           $('.ap__wrapper-tables').css('flex-direction', 'column');
-      }
+        }
 
       $('.ap__info_wrapper-medidores').css('visibility', 'visible');
 
-      this.setState({
-        columnsMedidores: ["ID EQUIPO", "NIS", "CANT LUMINARIAS", "CANT TRAMOS", "TIPO", "ROTULO"],
-        dataMedidores:
-        [{
-          "ID EQUIPO": "292253390",
-          "NIS": "0",
-          "CANT LUMINARIAS": "22",
-          "CANT TRAMOS": "24",
-          "TIPO": "Fotocelda",
-          "ROTULO": "330418",
-          "children": [
-            {
-              "ID EQUIPO": "ID Luminaria: 292246599",
-              "NIS": "Tipo Conexión: Directo a Red BT",
-              "CANT LUMINARIAS": "Propiedad: Municipal",
-              "CANT TRAMOS": "Medido: False",
-              "TIPO": "Descripción: Luminaria 70(w) NA",
-              "ROTULO": "Rótulo: 309057"
-            }]
-        },
-        {
-          "ID EQUIPO": "292253390",
-          "NIS": "0",
-          "CANT LUMINARIAS": "22",
-          "CANT TRAMOS": "24",
-          "TIPO": "Fotocelda",
-          "ROTULO": "330418",
-          "children": [
-            {
-            "ID EQUIPO": "ID Luminaria: 292246599",
-            "NIS": "Tipo Conexión: Directo a Red BT",
-            "CANT LUMINARIAS": "Propiedad: Municipal",
-            "CANT TRAMOS": "Medido: False",
-            "TIPO": "Descripción: Luminaria 70(w) NA",
-            "ROTULO": "Rótulo: 309057"
-            }]
-        }]
-      });
       return;
     }
     this.setState({onMedidor: 0})
@@ -190,6 +157,10 @@ class AlumbradoPublico extends React.Component {
     $('.ap_search_notifications').empty().css('visibility', 'hidden');
   }
   render(){
+
+
+
+
     let region = this.state.settings.comuna;
     return (
     <div className="ap__wrapper">
@@ -212,6 +183,8 @@ class AlumbradoPublico extends React.Component {
     <div className="ap__wrapper-tables">
       <div className="ap__info_wrapper-medidores">
         <APInfo title={"Medidores"} columns={this.state.columnsMedidores} data={this.state.dataMedidores}/>
+        <APInfo title={"Luminarias Asociadas"} columns={this.state.columnsMedidores} data={this.state.dataMedidores}/>
+
       </div>
       <div className="ap__info_wrapper-luminarias">
         <APInfo title={"Luminarias"} columns={this.state.columnsLuminarias} data={this.state.dataLuminarias}/>

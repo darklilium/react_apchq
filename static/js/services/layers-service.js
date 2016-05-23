@@ -112,6 +112,9 @@ function myLayers(){
     read_ap_rotulos(){
       return serviceURL + "Chilquinta_006/Nodos_006/MapServer/0?f=json&token=" + token.read();
 
+    },
+    read_ap_equipos(){
+        return serviceURL + "AP_Municipal/AP_MUNICIPAL/MapServer/3?f=json&token=" + token.read();
     }
 
   };

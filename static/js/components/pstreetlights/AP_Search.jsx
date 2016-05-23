@@ -11,8 +11,6 @@ class APSearch extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-
-
   onClickClear(){
     console.log("clearing search");
       var map = mymap.getMap();
@@ -43,7 +41,7 @@ class APSearch extends React.Component {
             <option value="IDNODO">ID NODO</option>
           </select>
           <input className="ap__search-input" ref="searchValue" onKeyPress={this.handleChange} title="Ingrese Rotulo o ID nodo a buscar" type="text" placeholder="" />
-        
+
           <button className="ap_navbar_button btn btn-default" title="Buscar" type="button" onClick={this.onClickClear}>
               <span><i className="fa fa-eraser"></i></span>
           </button>
