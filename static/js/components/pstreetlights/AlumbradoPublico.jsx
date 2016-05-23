@@ -25,6 +25,7 @@ class AlumbradoPublico extends React.Component {
       onSearch: 0,
       onMedidor: 0,
       onLuminarias: 0,
+      onAsociadas: 0,
       onChangeMap: 0,
       columnsMedidores: [],
       dataMedidores: [],
@@ -72,39 +73,69 @@ class AlumbradoPublico extends React.Component {
   }
 
   onMedidor(){
+    //visibility logic
+    /*
+    if onmedidor is clicked
+      see onMedidor
+        if onLuminaria is not visible
+          set flex-direction to column
+        if onluminaria is visible
+          set flex-direction to column-reverse
+
+
+
+    else
+      hide onmedidor
+    */
     var that = this;
+    this.setState({columnsMedidores: ['ID EQUIPO', 'NIS', 'CANT LUMINARIAS', 'CANT TRAMOS', 'TIPO', 'ROTULO'] });
+
+
     console.log("onMedidor clicked");
 
-    this.setState({columnsMedidores: ['ID EQUIPO', 'NIS', 'CANT LUMINARIAS', 'CANT TRAMOS', 'TIPO', 'ROTULO'] });
+    $('.ap__info_wrapper-medidores').css('display', 'flex');
+    $('.ap__info_wrapper-luminariasAsociadas').css('display', 'none');
+
     if (this.state.onMedidor == 0){
       this.setState({onMedidor: 1})
-
-        if(this.state.onLuminarias==0){
-          $('.ap__wrapper-tables').css('flex-direction', 'column-reverse');
-        }else{
-          $('.ap__wrapper-tables').css('flex-direction', 'column');
-        }
-
+      console.log("onMedidor prendido");
       $('.ap__info_wrapper-medidores').css('visibility', 'visible');
 
-      return;
-    }
-    this.setState({onMedidor: 0})
-      $('.ap__info_wrapper-medidores').css('visibility', 'hidden');
+        if(this.state.onLuminarias==0){
+          console.log("onlum apagado");
+          $('.ap__wrapper-tables').css('flex-direction', 'column');
+          $('.ap__info_wrapper-luminarias').css('display', 'none');
+        }else{
+            console.log("onlum visible");
+            $('.ap__wrapper-tables').css('flex-direction', 'column-reverse');
+        }
 
+    }else{
+      this.setState({onMedidor: 0})
+      $('.ap__info_wrapper-medidores').css('visibility', 'hidden');
+    }
   }
 
   onLuminarias(){
     console.log("onLuminarias clicked");
+    $('.ap__info_wrapper-luminariasAsociadas').css('display', 'none');
+    $('.ap__info_wrapper-luminarias').css('display', 'flex');
+
+
     if (this.state.onLuminarias == 0){
-        //if the medidores table is not shown
+      this.setState({onLuminarias: 1});
+      console.log("onLuminarias prendido");
+      $('.ap__info_wrapper-luminarias').css('visibility', 'visible');
+
         if(this.state.onMedidor==0){
+          console.log("onMedidor esta apagado");
           $('.ap__wrapper-tables').css('flex-direction', 'column');
+          $('.ap__info_wrapper-medidores').css('display', 'none');
+
         }else{
-            $('.ap__wrapper-tables').css('flex-direction', 'column-reverse');
+          console.log("onMedidor visible");
+          $('.ap__wrapper-tables').css('flex-direction', 'column-reverse');
         }
-          $('.ap__info_wrapper-luminarias').css('visibility', 'visible');
-          this.setState({onLuminarias: 1});
 
           this.setState({
             columnsLuminarias: ["ID LUMINARIA", "TIPO CONEXIÓN", "PROPIEDAD", "MEDIDO", "DESCRIPCIÓN", "ROTULO"],
@@ -117,11 +148,13 @@ class AlumbradoPublico extends React.Component {
               "ROTULO": "309057"
               }]
             });
-          return;
 
-    }
-    this.setState({onLuminarias: 0})
+    }else{
+        this.setState({onLuminarias: 0});
       $('.ap__info_wrapper-luminarias').css('visibility', 'hidden');
+    }
+
+
   }
 
   onChangeMap(){
@@ -183,8 +216,9 @@ class AlumbradoPublico extends React.Component {
     <div className="ap__wrapper-tables">
       <div className="ap__info_wrapper-medidores">
         <APInfo title={"Medidores"} columns={this.state.columnsMedidores} data={this.state.dataMedidores}/>
+      </div>
+      <div className="ap__info_wrapper-luminariasAsociadas">
         <APInfo title={"Luminarias Asociadas"} columns={this.state.columnsMedidores} data={this.state.dataMedidores}/>
-
       </div>
       <div className="ap__info_wrapper-luminarias">
         <APInfo title={"Luminarias"} columns={this.state.columnsLuminarias} data={this.state.dataLuminarias}/>

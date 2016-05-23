@@ -17,7 +17,7 @@ visibility: hidden;
 }
 
 .ap__wrapper-tables{
-  z-index: 2;
+  z-index: 5;
   bottom: 0;
   position: absolute;
   display: flex;
@@ -32,6 +32,12 @@ visibility: hidden;
 }
 
 .ap__info_wrapper-luminarias{
+  background: ghostwhite;
+  width: 100%;
+  z-index: 2;
+}
+
+.ap__info_wrapper-luminariasAsociadas{
   background: ghostwhite;
   width: 100%;
   z-index: 2;
@@ -67,7 +73,7 @@ visibility: hidden;
   }
 
   .ap__wrapper-tables{
-    z-index: 2;
+    z-index: 5;
     bottom: 0;
     position: absolute;
     display: flex;
@@ -108,18 +114,20 @@ visibility: hidden;
   }
 
   .ap__wrapper-tables{
-    z-index: 2;
+    z-index: 5;
     bottom: 0;
     position: absolute;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column-reverse !important;
     visibility: hidden;
+    height: 90%;
   }
 
   .ap__info_wrapper-medidores{
     background: ghostwhite;
     width: 100%;
     z-index: 2;
+
   }
 
   .ap__info_wrapper-luminarias{
