@@ -28,14 +28,17 @@ function makeSymbol(){
       return mySymbol;
     },
     makeLine(){
-      var mySymbol = new esri.symbol.SimpleLineSymbol(
-        esri.symbol.SimpleLineSymbol.STYLE_DASH,
-        new esri.Color([255,0,0]), 5
+      var mySymbol = new esri.symbol.CartographicLineSymbol(
+        esri.symbol.CartographicLineSymbol.STYLE_SOLID,
+        new esri.Color([0,0,255,0.9]), 15,
+        esri.symbol.CartographicLineSymbol.CAP_ROUND,
+        esri.symbol.CartographicLineSymbol.JOIN_MITER, 5
       );
 
       return mySymbol;
     },
     makePolygon(){
+      var mySymbol = "not defined yet";
       console.log("still not defined");
       return mySymbol;
     }

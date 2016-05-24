@@ -102,16 +102,13 @@ function myLayers(){
     //19-05-2016
     read_ap_modificaciones(){
       return serviceURL + "AP_Municipal/AP_MUNICIPAL/MapServer?f=json&token=" + token.read();
-
     },
     read_ap_luminarias(){
       return serviceURL + "AP_Municipal/AP_MUNICIPAL/FeatureServer/1?f=json&token=" + token.read();
-
     },
     //20/05/2016
     read_ap_rotulos(){
       return serviceURL + "Chilquinta_006/Nodos_006/MapServer/0?f=json&token=" + token.read();
-
     },
     read_ap_equipos(){
         return serviceURL + "AP_Municipal/AP_MUNICIPAL/MapServer/3?f=json&token=" + token.read();
@@ -202,7 +199,9 @@ function setLayers(){
       return apLuminariasLayer;
     },
     ap_tramos(whereRegion, layerNumber){
-      var apTramosLayer = new esri.layers.FeatureLayer(myLayers().read_ap_tramos(),{id:"ap_tramos"});
+      var apTramosLayer = new esri.layers.FeatureLayer(myLayers().read_ap_tramos(),{id:"ap_tramos",
+      mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
+      minScale: 9000});
 
       apTramosLayer.setDefinitionExpression(whereRegion);
       console.log(whereRegion);
