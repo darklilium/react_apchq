@@ -1,24 +1,36 @@
 import React from 'react';
 import Griddle from 'griddle-react';
 
-var fakeData =  [
-  {
-    "id": 0,
-    "name": 0,
-    "city": 0,
-    "state": "Hawaii",
-    "country": "United Kingdom",
-    "company": "Ovolo",
-    "favoriteNumber": 7
-  }
-];
-
+import {ap_getMedidorLocation} from '../../../js/services/ap_services/ap_getLocation-service';
+import {ap_getLuminariaLocation} from '../../../js/services/ap_services/ap_getLocation-service';
 class APInfo extends React.Component {
   constructor(props){
     super(props);
+    this.onRowClick = this.onRowClick.bind(this);
 
   }
 
+  onRowClick(gridRow, event){
+
+
+    switch (this.props.title) {
+      case 'Medidores':
+        ap_getMedidorLocation(gridRow.props.data['ID EQUIPO']);
+      break;
+
+      case 'Luminarias':
+      ap_getLuminariaLocation(gridRow.props.data['ID LUMINARIA']);
+      break;
+
+      case 'Luminarias Asociadas':
+
+      break;
+
+      default:
+
+    }
+
+  }
 
   render(){
     return (
@@ -28,6 +40,7 @@ class APInfo extends React.Component {
     showFilter={true}
     showSettings={true}
     resultsPerPage={2}
+    onRowClick={this.onRowClick}
     columns={this.props.columns}/>
   /*  </div>*/
     );

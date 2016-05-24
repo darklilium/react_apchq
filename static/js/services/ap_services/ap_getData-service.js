@@ -2,7 +2,7 @@ import my_AP_Settings from '../../../js/services/ap_services/ap_settings-service
 import createQueryTask from '../../../js/services/createquerytask-service';
 import layers from '../../../js/services/layers-service';
 
-
+/*
 function ap_getDataMedidores(comuna,callback) {
 
   var dataMedidoresSrv = createQueryTask({
@@ -36,49 +36,10 @@ function ap_getDataMedidores(comuna,callback) {
   });
 
 
-  /*
-  this.setState({
-      columnsMedidores: ["ID EQUIPO", "NIS", "CANT LUMINARIAS", "CANT TRAMOS", "TIPO", "ROTULO"],
-      dataMedidores:
-      [{
-        "ID EQUIPO": "292253390",
-        "NIS": "0",
-        "CANT LUMINARIAS": "22",
-        "CANT TRAMOS": "24",
-        "TIPO": "Fotocelda",
-        "ROTULO": "330418",
-        "children": [
-          {
-            "ID EQUIPO": "ID Luminaria: 292246599",
-            "NIS": "Tipo Conexión: Directo a Red BT",
-            "CANT LUMINARIAS": "Propiedad: Municipal",
-            "CANT TRAMOS": "Medido: False",
-            "TIPO": "Descripción: Luminaria 70(w) NA",
-            "ROTULO": "Rótulo: 309057"
-          }]
-      },
-      {
-        "ID EQUIPO": "292253390",
-        "NIS": "0",
-        "CANT LUMINARIAS": "22",
-        "CANT TRAMOS": "24",
-        "TIPO": "Fotocelda",
-        "ROTULO": "330418",
-        "children": [
-          {
-          "ID EQUIPO": "ID Luminaria: 292246599",
-          "NIS": "Tipo Conexión: Directo a Red BT",
-          "CANT LUMINARIAS": "Propiedad: Municipal",
-          "CANT TRAMOS": "Medido: False",
-          "TIPO": "Descripción: Luminaria 70(w) NA",
-          "ROTULO": "Rótulo: 309057"
-          }]
-      }]
-    });
-    */
 
 }
-
+*/
+/*
 function ap_getDataLumPerMed(comuna,idmed, callback) {
     var dataLumPerMedSrv = createQueryTask({
       url: layers.read_ap_luminarias(),
@@ -109,6 +70,61 @@ function ap_getDataLumPerMed(comuna,idmed, callback) {
     });
 
 }
+*/
 
+function ap_getDataMedidores(comuna,callback) {
+  var dataMedidoresSrv = createQueryTask({
+    url: layers.read_ap_equipos(),
+    whereClause: "comuna='"+comuna + "'"
+  });
 
-export {ap_getDataMedidores, ap_getDataLumPerMed};
+  dataMedidoresSrv((map, featureSet) => {
+
+      let finalResults = featureSet.features.map((result)=>{
+        let mr = {
+          "ID EQUIPO": result.attributes['id_medidor'],
+          "NIS": result.attributes['nis'],
+          "CANT LUMINARIAS": result.attributes['luminarias'],
+          "CANT TRAMOS": result.attributes['tramos_ap'],
+          "TIPO": result.attributes['tipo_conexion'],
+          "ROTULO": result.attributes['rotulo']
+
+        }
+        return mr;
+      });
+      callback(finalResults);
+
+  },(errorQuery)=>{
+      console.log("Error performing query for ap_getDataMedidores", errorQuery);
+  });
+
+}
+
+function ap_getDataLuminarias(comuna,callback){
+  var dataLuminariasSrv = createQueryTask({
+    url: layers.read_ap_luminarias(),
+    whereClause: "comuna='"+comuna + "'"
+  });
+
+  dataLuminariasSrv((map, featureSet) => {
+
+      let finalResults = featureSet.features.map((result, index)=>{
+
+        let children = {
+          "ID LUMINARIA":  result.attributes['ID_LUMINARIA'],
+          "TIPO CONEXIÓN": result.attributes['TIPO_CONEXION'],
+          "PROPIEDAD": result.attributes['PROPIEDAD'],
+          "MEDIDO": result.attributes['MEDIDO_TERRENO'],
+          "DESCRIPCION": result.attributes['DESCRIPCION'],
+          "ROTULO": result.attributes['ROTULO']
+        };
+        return children;
+      });
+    
+      callback(finalResults);
+
+  },(errorQuery)=>{
+      console.log("Error performing query for ap_getDataMedidores", errorQuery);
+  });
+}
+export {ap_getDataMedidores, ap_getDataLuminarias};

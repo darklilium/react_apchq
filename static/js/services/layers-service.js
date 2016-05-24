@@ -115,8 +115,10 @@ function myLayers(){
     },
     read_ap_equipos(){
         return serviceURL + "AP_Municipal/AP_MUNICIPAL/MapServer/3?f=json&token=" + token.read();
+    },
+    read_ap_tramos(){
+        return serviceURL + "AP_Municipal/AP_MUNICIPAL/MapServer/2?f=json&token=" + token.read();
     }
-
   };
 }
 
@@ -198,6 +200,14 @@ function setLayers(){
       });
 
       return apLuminariasLayer;
+    },
+    ap_tramos(whereRegion, layerNumber){
+      var apTramosLayer = new esri.layers.FeatureLayer(myLayers().read_ap_tramos(),{id:"ap_tramos"});
+
+      apTramosLayer.setDefinitionExpression(whereRegion);
+      console.log(whereRegion);
+
+      return apTramosLayer;
     }
   }
 }
@@ -227,7 +237,7 @@ function addCertainLayer(layerNameToAdd, order, where){
   var mapp = mymap.getMap();
   var myLayerToAdd;
 
-  console.log("adding layer: ", layerNameToAdd);
+  console.log("adding layer: ", layerNameToAdd,order);
 
   switch (layerNameToAdd) {
 
@@ -244,16 +254,19 @@ function addCertainLayer(layerNameToAdd, order, where){
     break;
 
     case 'ap_luminarias':
-      myLayerToAdd = setLayers().ap_luminarias(where,5);
+      myLayerToAdd = setLayers().ap_luminarias(where,6);
     break;
 
     case 'ap_modificaciones':
-      myLayerToAdd = setLayers().ap_modificaciones(where,5);
+      myLayerToAdd = setLayers().ap_modificaciones(where,7);
+    break;
+    case 'ap_tramos':
+      myLayerToAdd = setLayers().ap_tramos(where,5);
     break;
     default:
   }
 
-  mapp.addLayer(myLayerToAdd);
+  mapp.addLayer(myLayerToAdd,order);
 
   //Set here if you add more layers in the layerlist.
   if (check_alimentador.checked){

@@ -43,8 +43,8 @@ var map = {
       //also add the activeLayers on the map (depending on default layers for each app).
       this.map.removeAllLayers();
 
-      myActiveLayers.forEach(activeLayer =>{
-        addCertainLayer(activeLayer,10,"");
+      myActiveLayers.forEach((activeLayer, index) =>{
+        addCertainLayer(activeLayer,10+index,"");
       });
       this.map.addLayer(baseMapLayer,0);
 

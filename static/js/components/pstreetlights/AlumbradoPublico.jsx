@@ -9,7 +9,7 @@ import my_AP_Settings from '../../../js/services/ap_services/ap_settings-service
 import {addCertainLayer} from '../../../js/services/layers-service';
 import {layersActivated} from '../../../js/services/layers-service';
 import {ap_getDataMedidores} from '../../../js/services/ap_services/ap_getData-service';
-import {ap_getDataLumPerMed} from '../../../js/services/ap_services/ap_getData-service';
+import {ap_getDataLuminarias} from '../../../js/services/ap_services/ap_getData-service';
 
 class AlumbradoPublico extends React.Component {
 
@@ -28,8 +28,8 @@ class AlumbradoPublico extends React.Component {
       onAsociadas: 0,
       onChangeMap: 0,
       columnsMedidores: [],
-      dataMedidores: [],
       columnsLuminarias: [],
+      dataMedidores: [],
       dataLuminarias: [],
       settings: [],
       mapClick : 0
@@ -53,10 +53,15 @@ class AlumbradoPublico extends React.Component {
     var map = mymap.createMap("map_div","topo",settings.latx,settings.laty, settings.zoom);
 
     addCertainLayer("ap_comuna", 11, "nombre='"+this.state.settings.comuna+"'");
-    addCertainLayer("ap_luminarias", 11, "COMUNA='"+this.state.settings.comuna+"'");
+    addCertainLayer("ap_tramos", 12, "COMUNA='"+this.state.settings.comuna+"'");
+    addCertainLayer("ap_luminarias", 13, "COMUNA='"+this.state.settings.comuna+"'");
 
     ap_getDataMedidores(this.state.settings.comuna,(callback)=>{
       this.setState({dataMedidores:callback });
+    });
+
+    ap_getDataLuminarias(this.state.settings.comuna,(callback)=>{
+      this.setState({dataLuminarias:callback });
     });
   }
 
@@ -73,23 +78,8 @@ class AlumbradoPublico extends React.Component {
   }
 
   onMedidor(){
-    //visibility logic
-    /*
-    if onmedidor is clicked
-      see onMedidor
-        if onLuminaria is not visible
-          set flex-direction to column
-        if onluminaria is visible
-          set flex-direction to column-reverse
 
-
-
-    else
-      hide onmedidor
-    */
-    var that = this;
     this.setState({columnsMedidores: ['ID EQUIPO', 'NIS', 'CANT LUMINARIAS', 'CANT TRAMOS', 'TIPO', 'ROTULO'] });
-
 
     console.log("onMedidor clicked");
 
@@ -118,6 +108,7 @@ class AlumbradoPublico extends React.Component {
 
   onLuminarias(){
     console.log("onLuminarias clicked");
+    this.setState({columnsLuminarias: ['ID LUMINARIA', 'TIPO CONEXIÓN', 'PROPIEDAD', 'MEDIDO', 'DESCRIPCION', 'ROTULO'] });
     $('.ap__info_wrapper-luminariasAsociadas').css('display', 'none');
     $('.ap__info_wrapper-luminarias').css('display', 'flex');
 
@@ -137,24 +128,11 @@ class AlumbradoPublico extends React.Component {
           $('.ap__wrapper-tables').css('flex-direction', 'column-reverse');
         }
 
-          this.setState({
-            columnsLuminarias: ["ID LUMINARIA", "TIPO CONEXIÓN", "PROPIEDAD", "MEDIDO", "DESCRIPCIÓN", "ROTULO"],
-            dataLuminarias: [{
-              "ID LUMINARIA": "292246599",
-              "TIPO CONEXIÓN": "Directo a Red BT",
-              "PROPIEDAD": "Municipal",
-              "MEDIDO": "False",
-              "DESCRIPCIÓN": "Luminaria 70(w) NA",
-              "ROTULO": "309057"
-              }]
-            });
 
     }else{
         this.setState({onLuminarias: 0});
       $('.ap__info_wrapper-luminarias').css('visibility', 'hidden');
     }
-
-
   }
 
   onChangeMap(){
@@ -166,21 +144,22 @@ class AlumbradoPublico extends React.Component {
       if (this.state.mapClick==0){
         this.setState({ mapClick : 1 });
         mymap.changeBasemap("hybrid");
-        addCertainLayer("ap_comuna", 11, "nombre='"+this.state.settings.comuna+"'");
-        addCertainLayer("ap_luminarias", 11, "COMUNA='"+this.state.settings.comuna+"'");
+
 
       }else if(this.state.mapClick==1){
         this.setState({ mapClick : 2 });
         mymap.changeBasemap("Chilquinta");
-        addCertainLayer("ap_comuna", 11, "nombre='"+this.state.settings.comuna+"'");
-        addCertainLayer("ap_luminarias", 11, "COMUNA='"+this.state.settings.comuna+"'");
+
 
       }else {
         this.setState({ mapClick : 0 });
         mymap.changeBasemap("topo");
-        addCertainLayer("ap_comuna", 11, "nombre='"+this.state.settings.comuna+"'");
-        addCertainLayer("ap_luminarias", 11, "COMUNA='"+this.state.settings.comuna+"'");
+
       }
+      addCertainLayer("ap_comuna", 11, "nombre='"+this.state.settings.comuna+"'");
+      addCertainLayer("ap_tramos", 12, "COMUNA='"+this.state.settings.comuna+"'");
+      addCertainLayer("ap_luminarias", 13, "COMUNA='"+this.state.settings.comuna+"'");
+
   }
 
   onClearMap(){
