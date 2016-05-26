@@ -50,7 +50,8 @@ function ap_getDataLuminarias(comuna,callback){
           "PROPIEDAD": result.attributes['PROPIEDAD'],
           "MEDIDO": result.attributes['MEDIDO_TERRENO'],
           "DESCRIPCION": result.attributes['DESCRIPCION'],
-          "ROTULO": result.attributes['ROTULO']
+          "ROTULO": result.attributes['ROTULO'],
+          "ID EQUIPO": result.attributes['ID_EQUIPO_AP'] 
         };
         return children;
       });
@@ -112,6 +113,8 @@ function ap_getDataLuminariasAsociadas(comuna, idMedidor,callback){
             event.graphic.geometry);
       });
       layers.save_graphicLayer(graphicsLayer);
+      var myExtend= new esri.graphicsExtent(featureSet.features);
+      map.setExtent(myExtend,true);
       callback(results);
 
   },(errorQuery)=>{
@@ -123,7 +126,7 @@ function ap_getDataLuminariasAsociadas(comuna, idMedidor,callback){
 }
 
 function ap_getTramosMedidor(idequipoap, comuna){
-    let mySymbol = makeSymbol.makeTrackLine();
+  let mySymbol = makeSymbol.makeTrackLine();
 
   var dataLuminariasSrv = createQueryTask({
     url: layers.read_ap_tramos(),
@@ -142,7 +145,23 @@ function ap_getTramosMedidor(idequipoap, comuna){
   });
 }
 
-function ap_getTramosLuminaria(){
+function ap_getTramosLuminaria(idLuminariaap, comuna){
+  let mySymbol = makeSymbol.makeTrackLine();
 
+  var dataLuminariasSrv = createQueryTask({
+    url: layers.read_ap_tramos(),
+    whereClause: "comuna='"+ comuna + "' AND id_equipo_ap=" + idLuminariaap
+  });
+
+  dataLuminariasSrv((map, featureSet) => {
+      featureSet.features.forEach(feature =>{
+        map.graphics.add(new esri.Graphic(feature.geometry,mySymbol));
+
+      });
+      var myExtend= new esri.graphicsExtent(featureSet.features);
+      map.setExtent(myExtend,true);
+  },(errorQuery)=>{
+      console.log("Error performing query for ap_getDataMedidores", errorQuery);
+  });
 }
 export {ap_getDataMedidores, ap_getDataLuminarias,ap_getTramosMedidor,ap_getTramosLuminaria,ap_getDataLuminariasAsociadas};

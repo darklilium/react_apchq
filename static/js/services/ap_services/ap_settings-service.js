@@ -35,7 +35,8 @@ function myValuesSelected(){
   var mySelectedValues = {
     idMedidor: '',
     idLuminaria: '',
-    idLuminariaAsociada: ''
+    idLuminariaAsociada: '',
+    idEquipoLuminaria: ''
   };
 
   return {
@@ -53,6 +54,10 @@ function myValuesSelected(){
     },
     writeIDLuminariaAsociada(idLuminariaAsociada){
       mySelectedValues.idLuminariaAsociada = idLuminariaAsociada;
+      cookieHandler.set('mslctdvls', mySelectedValues);
+    },
+    writeIDEquipoLuminaria(idEquipoLuminaria){
+      mySelectedValues.idEquipoLuminaria = idEquipoLuminaria;
       cookieHandler.set('mslctdvls', mySelectedValues);
     },
     delete(){

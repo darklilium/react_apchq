@@ -19,22 +19,24 @@ class APInfo extends React.Component {
     $('.table').find(".standard-row").eq(1).css("background", "#F5ECCE");
     $('.ap__info_wrapper-luminariasAsociadas').css('display', 'none');
 
+    var mapp = mymap.getMap();
+    mapp.graphics.clear();
+
+    if (layers.read_graphicLayer()){
+        mapp.removeLayer(layers.read_graphicLayer());
+    }
 
     switch (this.props.title) {
       case 'Medidores':
-      var mapp = mymap.getMap();
-      mapp.graphics.clear();
-
-      if (layers.read_graphicLayer()){
-          mapp.removeLayer(layers.read_graphicLayer());
-        
-      }
         ap_getMedidorLocation(gridRow.props.data['ID EQUIPO']);
         myValuesSelected().writeIDMedidor(gridRow.props.data['ID EQUIPO']);
       break;
 
       case 'Luminarias':
         ap_getLuminariaLocation(gridRow.props.data['ID LUMINARIA']);
+        console.log(gridRow.props);
+        myValuesSelected().writeIDLuminaria(gridRow.props.data['ID LUMINARIA']);
+        myValuesSelected().writeIDEquipoLuminaria(gridRow.props.data['ID EQUIPO']);
       break;
 
       case 'Luminarias Asociadas':
