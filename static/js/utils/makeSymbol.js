@@ -41,6 +41,16 @@ function makeSymbol(){
       var mySymbol = "not defined yet";
       console.log("still not defined");
       return mySymbol;
+    },
+    makeTrackLine(){
+      var mySymbol = new esri.symbol.CartographicLineSymbol(
+        esri.symbol.CartographicLineSymbol.STYLE_SOLID,
+        new esri.Color([255,0,51,0.9]), 5,
+        esri.symbol.CartographicLineSymbol.CAP_ROUND,
+        esri.symbol.CartographicLineSymbol.JOIN_MITER, 5
+      );
+
+      return mySymbol;
     }
   }
 }

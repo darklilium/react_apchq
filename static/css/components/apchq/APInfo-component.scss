@@ -29,6 +29,7 @@ visibility: hidden;
   background: ghostwhite;
   width: 100%;
   z-index: 2;
+  flex-direction: column;
 }
 
 .ap__info_wrapper-luminarias{
@@ -43,6 +44,42 @@ visibility: hidden;
   z-index: 2;
 }
 
+.medidores_filter{
+  display: flex;
+    flex-direction: row;
+}
+
+.medidores_tools{
+  display: flex;
+  flex-direction: column;
+
+
+}
+.medidores_tools_h6{
+  height: 33%;
+  color: ghostwhite;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.medidores_tools_buttons{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.ap_table_navbar{
+  flex-grow: 1;
+}
+
+.h6_medidores{
+    background: cornflowerblue;
+}
+
+.h6_luminarias{
+    background: green;
+}
 @media screen and (max-width: 640px) and (min-width:481px) and (orientation: landscape)  {
   .griddle{
 

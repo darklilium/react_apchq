@@ -1,4 +1,5 @@
 import cookieHandler from 'cookie-handler';
+
 function my_AP_Settings(){
   var my_ap_settings = {
     logo: '',
@@ -30,5 +31,35 @@ function my_AP_Settings(){
   };
 }
 
+function myValuesSelected(){
+  var mySelectedValues = {
+    idMedidor: '',
+    idLuminaria: '',
+    idLuminariaAsociada: ''
+  };
 
+  return {
+    read(){
+      return cookieHandler.get('mslctdvls');
+
+    },
+    writeIDMedidor(idMedidor){
+      mySelectedValues.idMedidor = idMedidor;
+      cookieHandler.set('mslctdvls', mySelectedValues);
+    },
+    writeIDLuminaria(idLuminaria){
+      mySelectedValues.idLuminaria = idLuminaria;
+      cookieHandler.set('mslctdvls', mySelectedValues);
+    },
+    writeIDLuminariaAsociada(idLuminariaAsociada){
+      mySelectedValues.idLuminariaAsociada = idLuminariaAsociada;
+      cookieHandler.set('mslctdvls', mySelectedValues);
+    },
+    delete(){
+      cookieHandler.remove('mslctdvls');
+    }
+
+  };
+}
 export default my_AP_Settings();
+export {myValuesSelected};
