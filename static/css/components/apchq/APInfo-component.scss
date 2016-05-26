@@ -42,6 +42,7 @@ visibility: hidden;
   background: ghostwhite;
   width: 100%;
   z-index: 2;
+  flex-direction: column;
 }
 
 .medidores_filter{
@@ -52,7 +53,7 @@ visibility: hidden;
 .medidores_tools{
   display: flex;
   flex-direction: column;
-
+  min-width : 5%;
 
 }
 .medidores_tools_h6{
@@ -73,6 +74,7 @@ visibility: hidden;
   flex-grow: 1;
 }
 
+
 .h6_medidores{
     background: cornflowerblue;
 }
@@ -80,6 +82,11 @@ visibility: hidden;
 .h6_luminarias{
     background: green;
 }
+
+.h6_luminariasAsociadas{
+  background: lightseagreen;
+}
+
 @media screen and (max-width: 640px) and (min-width:481px) and (orientation: landscape)  {
   .griddle{
 
@@ -129,6 +136,12 @@ visibility: hidden;
     width: 100%;
     z-index: 2;
   }
+
+  .medidores_tools{
+
+    min-width : 10%;
+
+  }
 }
 
 @media screen and (max-width: 480px) and (min-width:320px) and (orientation: landscape)  {
@@ -157,7 +170,7 @@ visibility: hidden;
     display: flex;
     flex-direction: column-reverse !important;
     visibility: hidden;
-    height: 90%;
+    height: 100%;
   }
 
   .ap__info_wrapper-medidores{
@@ -171,6 +184,12 @@ visibility: hidden;
     background: ghostwhite;
     width: 100%;
     z-index: 2;
+  }
+
+  .medidores_tools{
+
+    min-width : 13%;
+
   }
 
 }

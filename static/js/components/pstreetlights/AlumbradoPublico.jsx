@@ -1,5 +1,6 @@
 import React from 'react';
 import mymap from '../../../js/services/map-service';
+import layers from '../../../js/services/layers-service';
 import APNavBar from '../pstreetlights/AP_Navbar.jsx';
 import APSearch from '../pstreetlights/AP_Search.jsx';
 import APEditor from '../pstreetlights/AP_Editor.jsx';
@@ -13,6 +14,7 @@ import {ap_getDataLuminarias} from '../../../js/services/ap_services/ap_getData-
 import {ap_getTramosMedidor} from '../../../js/services/ap_services/ap_getData-service';
 import {ap_getTramosLuminaria} from '../../../js/services/ap_services/ap_getData-service';
 import {myValuesSelected} from '../../../js/services/ap_services/ap_settings-service';
+import {ap_getDataLuminariasAsociadas} from '../../../js/services/ap_services/ap_getData-service';
 
 class AlumbradoPublico extends React.Component {
 
@@ -37,8 +39,7 @@ class AlumbradoPublico extends React.Component {
       columnsLuminarias: [],
       dataMedidores: [],
       dataLuminarias: [],
-      dataMedidoresResp: [],
-      dataLuminariasResp: [],
+      dataLuminariasAsociadas: [],
       settings: [],
       mapClick : 0,
       idEquipoapSelected: 0
@@ -67,11 +68,11 @@ class AlumbradoPublico extends React.Component {
     addCertainLayer("ap_luminarias", 13, "COMUNA='"+this.state.settings.comuna+"'");
 
     ap_getDataMedidores(this.state.settings.comuna,(callback)=>{
-      this.setState({dataMedidores:callback, dataMedidoresResp: callback });
+      this.setState({dataMedidores:callback});
     });
 
     ap_getDataLuminarias(this.state.settings.comuna,(callback)=>{
-      this.setState({dataLuminarias:callback, dataLuminariasResp: callback });
+      this.setState({dataLuminarias:callback});
     });
   }
 
@@ -178,27 +179,32 @@ class AlumbradoPublico extends React.Component {
     var map = mymap.getMap();
     map.graphics.clear();
     $('.ap_search_notifications').empty().css('visibility', 'hidden');
+
+    if (layers.read_graphicLayer()){
+        map.removeLayer(layers.read_graphicLayer());
+      return;
+    }
+
   }
 
   onShowTramos(event){
-  //  console.log(event.currentTarget.id);
-
     switch (event.currentTarget.id) {
 
     case 'btnShowTramosMedidor':
-    console.log("showing related trail medidor");
-    var myValues = myValuesSelected().read();
+      console.log("showing related trail medidor");
 
-      if (myValuesSelected().read()==null){
-        console.log("debe guardar un valor de id medidor");
-      }else{
-        ap_getTramosMedidor(myValues['idMedidor'], this.state.settings.comuna);
-      }
+
+        if (myValuesSelected().read()==null){
+          console.log("debe guardar un valor de id medidor");
+        }else{
+          let myValues = myValuesSelected().read();
+          ap_getTramosMedidor(myValues['idMedidor'], this.state.settings.comuna);
+        }
 
       break;
 
       case 'btnShowTramosLuminaria':
-      console.log("showing related trail luminaria");
+        console.log("showing related trail luminaria");
       break;
 
       default:
@@ -209,6 +215,20 @@ class AlumbradoPublico extends React.Component {
 
   onShowLumAsoc(){
   console.log("showing related lights and drawing them");
+
+    if (myValuesSelected().read()==null){
+        console.log("debe guardar un valor de id medidor para mostrar luminarias asociadas");
+    }else{
+        let myValues = myValuesSelected().read();
+        ap_getDataLuminariasAsociadas(this.state.settings.comuna,myValues['idMedidor'],(callback)=>{
+        this.setState({dataLuminariasAsociadas:callback.dataForTable});
+
+        //show griddle for luminarias asociadas
+          $('.ap__info_wrapper-luminariasAsociadas').css('display', 'flex');
+          $('.ap__info_wrapper-luminariasAsociadas').css('visibility', 'visible');
+      });
+    }
+
 
   }
   onDownLoadInfoLuminarias(){
@@ -239,6 +259,7 @@ class AlumbradoPublico extends React.Component {
     <APEditor />
 
     <div className="ap__wrapper-tables">
+
       <div className="ap__info_wrapper-medidores">
         <div className="medidores_filter">
           <div className="medidores_tools">
@@ -247,7 +268,7 @@ class AlumbradoPublico extends React.Component {
                 <button className="ap_table_navbar ap_navbar_button btn btn-default" id="btnShowTramosMedidor" title="Ver Tramos" type="button" onClick={this.onShowTramos} >
                     <span><i className="fa fa-code-fork "></i></span>
                 </button>
-                <button className="ap_table_navbar ap_navbar_button btn btn-default" id="btnShowLumMedidor" title="Ver Luminarias" type="button" onClick={this.onShowLumAsoc} >
+                <button className="ap_table_navbar ap_navbar_button btn btn-default" id="btnShowLumMedidor" title="Ver Luminarias Asociadas" type="button" onClick={this.onShowLumAsoc} >
                     <span><i className="fa fa-lightbulb-o"></i></span>
                 </button>
                 <button className="ap_table_navbar ap_navbar_button btn btn-default" id="btnDownloadInfoMedidor" title="Descargar info." type="button" onClick={this.onDownLoadInfoMedidores}  >
@@ -262,20 +283,16 @@ class AlumbradoPublico extends React.Component {
       <div className="ap__info_wrapper-luminariasAsociadas">
         <div className="medidores_filter">
           <div className="medidores_tools">
-            <div className="medidores_tools_h6 h6_luminarias"><h6>Lum.Asociadas</h6></div>
-            <div className="medidores_tools_buttons">
-              <button className="ap_table_navbar ap_navbar_button btn btn-default" id="btnShowTramosLuminaria" title="Ver Tramos" type="button" onClick={this.onShowTramos}>
-                  <span><i className="fa fa-code-fork "></i></span>
-              </button>
-              <button className="ap_table_navbar ap_navbar_button btn btn-default" id="btnShowLumLuminaria" title="Ver Luminarias" type="button" onClick={this.onShowLumAsoc}>
-                  <span><i className="fa fa-lightbulb-o"></i></span>
-              </button>
-              <button className="ap_table_navbar ap_navbar_button btn btn-default" id="btnDownloadInfoLuminarias" title="Descargar info." type="button" onClick={this.onDownLoadInfoLuminarias}>
-                  <span><i className="fa fa-download"></i></span>
-              </button>
-            </div>
-            <APInfo title={"Luminarias Asociadas"} columns={this.state.columnsMedidores} data={this.state.dataMedidores} comuna={this.state.settings.comuna}/>
+            <div className="medidores_tools_h6 h6_luminariasAsociadas"><h6>Lum.Asoc </h6></div>
+              <div className="medidores_tools_buttons">
+                <button className="ap_table_navbar ap_navbar_button btn btn-default" id="btnDownloadInfoLuminarias" title="Descargar info." type="button" onClick={this.onDownLoadInfoLuminarias}>
+                    <span><i className="fa fa-download"></i></span>
+                </button>
+
+              </div>
           </div>
+          <APInfo title={"Luminarias Asociadas"} columns={this.state.columnsLuminarias} data={this.state.dataLuminariasAsociadas} comuna={this.state.settings.comuna}/>
+
         </div>
       </div>
 
