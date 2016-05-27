@@ -16,6 +16,7 @@ import {ap_getTramosLuminaria} from '../../../js/services/ap_services/ap_getData
 import {myValuesSelected} from '../../../js/services/ap_services/ap_settings-service';
 import {ap_getDataLuminariasAsociadas} from '../../../js/services/ap_services/ap_getData-service';
 import {ap_getMedidorLocation} from '../../../js/services/ap_services/ap_getLocation-service';
+import {ap_exportGraphicsToPDF} from '../../../js/services/ap_services/ap_exportToPdf';
 
 class AlumbradoPublico extends React.Component {
 
@@ -29,8 +30,8 @@ class AlumbradoPublico extends React.Component {
     this.onShowTramos = this.onShowTramos.bind(this);
     this.onShowLumAsoc = this.onShowLumAsoc.bind(this);
     this.onShowMedidorAsoc = this.onShowMedidorAsoc.bind(this);
-    this.onDownLoadInfoLuminarias = this.onDownLoadInfoLuminarias.bind(this);
-    this.onDownLoadInfoMedidores = this.onDownLoadInfoMedidores.bind(this);
+    this.onShowRelatedLumAsoc = this.onShowRelatedLumAsoc.bind(this);
+    this.onDownLoad = this.onDownLoad.bind(this);
 
     this.state ={
       onSearch: 0,
@@ -220,23 +221,27 @@ class AlumbradoPublico extends React.Component {
   }
 
   onShowLumAsoc(){
-  console.log("showing related lights and drawing them");
+    console.log("showing related lights and drawing them");
+    $('.ap__info_wrapper-luminarias').css('display', 'none');
+    $('.ap__info_wrapper-luminarias').css('visibility', 'hidden');
+    this.setState({onLuminarias: 0});
 
-    if (myValuesSelected().read()==null){
-        console.log("debe guardar un valor de id medidor para mostrar luminarias asociadas");
-    }else{
-        let myValues = myValuesSelected().read();
-        ap_getDataLuminariasAsociadas(this.state.settings.comuna,myValues['idMedidor'],(callback)=>{
-        this.setState({dataLuminariasAsociadas:callback.dataForTable});
+      if (myValuesSelected().read()==null){
+          console.log("debe guardar un valor de id medidor para mostrar luminarias asociadas");
+      }else{
+          let myValues = myValuesSelected().read();
+          ap_getDataLuminariasAsociadas(this.state.settings.comuna,myValues['idMedidor'],(callback)=>{
+          this.setState({dataLuminariasAsociadas:callback.dataForTable});
 
-        //show griddle for luminarias asociadas
-          $('.ap__info_wrapper-luminariasAsociadas').css('display', 'flex');
-          $('.ap__info_wrapper-luminariasAsociadas').css('visibility', 'visible');
-      });
-    }
+          //show griddle for luminarias asociadas
+            $('.ap__info_wrapper-luminariasAsociadas').css('display', 'flex');
+            $('.ap__info_wrapper-luminariasAsociadas').css('visibility', 'visible');
+        });
+      }
 
 
   }
+
   onShowMedidorAsoc(){
       console.log("showing related meter");
       if (myValuesSelected().read()==null){
@@ -247,13 +252,52 @@ class AlumbradoPublico extends React.Component {
       }
   }
 
-  onDownLoadInfoLuminarias(){
-  console.log("download related info about luminarias");
+  onShowRelatedLumAsoc(){
+    console.log("showing related streetlights for the cirtuit");
+    $('.ap__info_wrapper-medidores').css('display', 'none');
+    $('.ap__info_wrapper-medidores').css('visibility', 'hidden');
+      this.setState({onMedidor: 0});
+
+    if (myValuesSelected().read()==null){
+        console.log("debe guardar un valor de id medidor para mostrar luminarias asociadas");
+    }else{
+      let myValues = myValuesSelected().read();
+      ap_getDataLuminariasAsociadas(this.state.settings.comuna,myValues['idEquipoLuminaria'],(callback)=>{
+      this.setState({dataLuminariasAsociadas:callback.dataForTable});
+
+      //show griddle for luminarias asociadas
+        $('.ap__info_wrapper-luminariasAsociadas').css('display', 'flex');
+        $('.ap__info_wrapper-luminariasAsociadas').css('visibility', 'visible');
+    });
+    }
+
+
   }
 
-  onDownLoadInfoMedidores(){
-      console.log("download related info about meters");
+  onDownLoad(event){
+
+
+    switch (event.currentTarget.id) {
+      case 'btnDownloadInfoMedidor':
+        console.log("boton medidor download");
+          ap_exportGraphicsToPDF(this.state.dataMedidores,'MEDIDORES', this.state.settings.comuna);
+      break;
+
+      case 'btnDownloadInfoLuminariasAsoc':
+        console.log("boton luminarias asociadas download");
+          ap_exportGraphicsToPDF(this.state.dataLuminariasAsociadas,'LUMINARIAS_ASOCIADAS');
+      break;
+
+      case 'btnDownloadInfoLuminarias':
+        console.log("boton luminarias download");
+          ap_exportGraphicsToPDF(this.state.dataLuminarias,'LUMINARIAS');
+      break;
+      default:
+
+    }
   }
+
+
   render(){
     let region = this.state.settings.comuna;
     return (
@@ -287,7 +331,7 @@ class AlumbradoPublico extends React.Component {
                 <button className="ap_table_navbar ap_navbar_button btn btn-default" id="btnShowLumMedidor" title="Ver Luminarias Asociadas" type="button" onClick={this.onShowLumAsoc} >
                     <span><i className="fa fa-lightbulb-o"></i></span>
                 </button>
-                <button className="ap_table_navbar ap_navbar_button btn btn-default" id="btnDownloadInfoMedidor" title="Descargar info." type="button" onClick={this.onDownLoadInfoMedidores}  >
+                <button className="ap_table_navbar ap_navbar_button btn btn-default" id="btnDownloadInfoMedidor" title="Descargar info." type="button" onClick={this.onDownLoad}  >
                     <span><i className="fa fa-download"></i></span>
                 </button>
               </div>
@@ -301,7 +345,7 @@ class AlumbradoPublico extends React.Component {
           <div className="medidores_tools">
             <div className="medidores_tools_h6 h6_luminariasAsociadas"><h6>Lum.Asoc </h6></div>
               <div className="medidores_tools_buttons">
-                <button className="ap_table_navbar ap_navbar_button btn btn-default" id="btnDownloadInfoLuminarias" title="Descargar info." type="button" onClick={this.onDownLoadInfoLuminarias}>
+                <button className="ap_table_navbar ap_navbar_button btn btn-default" id="btnDownloadInfoLuminariasAsoc" title="Descargar info." type="button" onClick={this.onDownLoad}>
                     <span><i className="fa fa-download"></i></span>
                 </button>
 
@@ -323,10 +367,10 @@ class AlumbradoPublico extends React.Component {
               <button className="ap_table_navbar ap_navbar_button btn btn-default" id="btnShowMedidorAsoc" title="Mostrar Ubicación Medidor." type="button" onClick={this.onShowMedidorAsoc}>
                   <span><i className="fa fa-tachometer"></i></span>
               </button>
-              <button className="ap_table_navbar ap_navbar_button btn btn-default" id="btnShowLumLuminaria" title="Ver Luminarias" type="button" onClick={this.onShowLumAsoc}>
+              <button className="ap_table_navbar ap_navbar_button btn btn-default" id="btnShowLumLuminaria" title="Ver Luminarias" type="button" onClick={this.onShowRelatedLumAsoc}>
                   <span><i className="fa fa-lightbulb-o"></i></span>
               </button>
-              <button className="ap_table_navbar ap_navbar_button btn btn-default" id="btnDownloadInfoLuminarias" title="Descargar info." type="button" onClick={this.onDownLoadInfoLuminarias}>
+              <button className="ap_table_navbar ap_navbar_button btn btn-default" id="btnDownloadInfoLuminarias" title="Descargar info." type="button" onClick={this.onDownLoad}>
                   <span><i className="fa fa-download"></i></span>
               </button>
 

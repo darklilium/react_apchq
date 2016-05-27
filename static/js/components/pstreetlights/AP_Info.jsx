@@ -17,7 +17,7 @@ class APInfo extends React.Component {
 
   onRowClick(gridRow, event){
     $('.table').find(".standard-row").eq(1).css("background", "#F5ECCE");
-    $('.ap__info_wrapper-luminariasAsociadas').css('display', 'none');
+
 
     var mapp = mymap.getMap();
     mapp.graphics.clear();
@@ -28,11 +28,13 @@ class APInfo extends React.Component {
 
     switch (this.props.title) {
       case 'Medidores':
+        $('.ap__info_wrapper-luminariasAsociadas').css('display', 'none');
         ap_getMedidorLocation(gridRow.props.data['ID EQUIPO']);
         myValuesSelected().writeIDMedidor(gridRow.props.data['ID EQUIPO']);
       break;
 
       case 'Luminarias':
+        $('.ap__info_wrapper-luminariasAsociadas').css('display', 'none');
         ap_getLuminariaLocation(gridRow.props.data['ID LUMINARIA']);
         console.log(gridRow.props);
         myValuesSelected().writeIDLuminaria(gridRow.props.data['ID LUMINARIA']);
@@ -40,7 +42,7 @@ class APInfo extends React.Component {
       break;
 
       case 'Luminarias Asociadas':
-
+        ap_getLuminariaLocation(gridRow.props.data['ID LUMINARIA']);
       break;
 
       default:
