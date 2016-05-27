@@ -16,7 +16,10 @@ import {ap_getTramosLuminaria} from '../../../js/services/ap_services/ap_getData
 import {myValuesSelected} from '../../../js/services/ap_services/ap_settings-service';
 import {ap_getDataLuminariasAsociadas} from '../../../js/services/ap_services/ap_getData-service';
 import {ap_getMedidorLocation} from '../../../js/services/ap_services/ap_getLocation-service';
-import {ap_exportGraphicsToPDF} from '../../../js/services/ap_services/ap_exportToPdf';
+
+//import {ap_exportGraphicsToPDF} from '../../../js/services/ap_services/ap_exportToPdf';
+
+import {ap_exportToExcel} from '../../../js/services/ap_services/ap_exportToExcel';
 
 class AlumbradoPublico extends React.Component {
 
@@ -280,17 +283,24 @@ class AlumbradoPublico extends React.Component {
     switch (event.currentTarget.id) {
       case 'btnDownloadInfoMedidor':
         console.log("boton medidor download");
-          ap_exportGraphicsToPDF(this.state.dataMedidores,'MEDIDORES', this.state.settings.comuna);
+        //  ap_exportGraphicsToPDF(this.state.dataMedidores,'MEDIDORES', this.state.settings.comuna);
+
+        ap_exportToExcel(this.state.dataMedidores,'MEDIDORES '+this.state.settings.comuna, this.state.columnsMedidores);
       break;
 
       case 'btnDownloadInfoLuminariasAsoc':
         console.log("boton luminarias asociadas download");
-          ap_exportGraphicsToPDF(this.state.dataLuminariasAsociadas,'LUMINARIAS_ASOCIADAS');
+          //ap_exportGraphicsToPDF(this.state.dataLuminariasAsociadas,'LUMINARIAS_ASOCIADAS');
+          let myValues = myValuesSelected().read();
+          ap_exportToExcel(this.state.dataLuminariasAsociadas,'Luminarias Asociadas al medidor:' + myValues['idMedidor']+ " de "+this.state.settings.comuna, this.state.columnsMedidores);
       break;
 
       case 'btnDownloadInfoLuminarias':
         console.log("boton luminarias download");
-          ap_exportGraphicsToPDF(this.state.dataLuminarias,'LUMINARIAS');
+          //ap_exportGraphicsToPDF(this.state.dataLuminarias,'LUMINARIAS');
+        
+          ap_exportToExcel(this.state.dataLuminarias,'Luminarias de '+this.state.settings.comuna, this.state.columnsMedidores);
+
       break;
       default:
 
