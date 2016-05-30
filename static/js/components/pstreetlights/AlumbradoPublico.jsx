@@ -16,10 +16,13 @@ import {ap_getTramosLuminaria} from '../../../js/services/ap_services/ap_getData
 import {myValuesSelected} from '../../../js/services/ap_services/ap_settings-service';
 import {ap_getDataLuminariasAsociadas} from '../../../js/services/ap_services/ap_getData-service';
 import {ap_getMedidorLocation} from '../../../js/services/ap_services/ap_getLocation-service';
-
+import {setLayers} from '../../../js/services/layers-service';
 //import {ap_exportGraphicsToPDF} from '../../../js/services/ap_services/ap_exportToPdf';
 
 import {ap_exportToExcel} from '../../../js/services/ap_services/ap_exportToExcel';
+import {myDisplayedMedidor} from '../../../js/services/ap_services/ap_settings-service';
+import {myDisplayedLuminaria} from '../../../js/services/ap_services/ap_settings-service';
+import {myDisplayedLuminariaAsociada} from '../../../js/services/ap_services/ap_settings-service';
 
 class AlumbradoPublico extends React.Component {
 
@@ -81,6 +84,7 @@ class AlumbradoPublico extends React.Component {
     ap_getDataLuminarias(this.state.settings.comuna,(callback)=>{
       this.setState({dataLuminarias:callback});
     });
+
   }
 
   onSearch(){
@@ -88,6 +92,7 @@ class AlumbradoPublico extends React.Component {
     if (this.state.onSearch==0){
       this.setState({ onSearch : 1 });
       $('.ap__search_wrapper').css('visibility', 'visible');
+      $('.ap_wrapper-editor').css('visibility', 'hidden');
       return;
     }
     this.setState({ onSearch : 0 });
@@ -98,30 +103,35 @@ class AlumbradoPublico extends React.Component {
   onMedidor(){
     this.setState({columnsMedidores: ['ID EQUIPO', 'NIS', 'CANT LUMINARIAS', 'CANT TRAMOS', 'TIPO', 'ROTULO'] });
 
-    console.log("onMedidor clicked");
-
     $('.ap__info_wrapper-medidores').css('display', 'flex');
     $('.ap__info_wrapper-luminariasAsociadas').css('display', 'none');
+    $('.ap_wrapper-editor').css('visibility', 'hidden').css('display','none');
+
+    myDisplayedLuminariaAsociada.setMyDisplayedAsociada('not displayed');
+    myDisplayedMedidor.setMyDisplayedMedidor('displayed');
 
     if (this.state.onMedidor == 0){
       this.setState({onMedidor: 1})
-      console.log("onMedidor prendido");
       $('.ap__info_wrapper-medidores').css('visibility', 'visible');
+      myDisplayedMedidor.setMyDisplayedMedidor('displayed');
 
         if(this.state.onLuminarias==0){
-          console.log("onlum apagado");
           $('.ap__wrapper-tables').css('flex-direction', 'column');
           $('.ap__info_wrapper-luminarias').css('display', 'none');
+          myDisplayedLuminaria.setMyDisplayedLuminaria('not displayed');
+
         }else{
-          console.log("onlum visible");
+          myDisplayedLuminaria.setMyDisplayedLuminaria('displayed');
           $('.ap__wrapper-tables').css('flex-direction', 'column-reverse');
         }
 
     }else{
       this.setState({onMedidor: 0})
-      $('.ap__info_wrapper-medidores').css('visibility', 'hidden');
+        $('.ap__info_wrapper-medidores').css('visibility', 'hidden');
         $('.ap__info_wrapper-medidores').css('display', 'none');
+        myDisplayedMedidor.setMyDisplayedMedidor('not displayed');
     }
+      console.log(myDisplayedMedidor.getMyDisplayedMedidor());
   }
 
   onLuminarias(){
@@ -129,21 +139,28 @@ class AlumbradoPublico extends React.Component {
     this.setState({columnsLuminarias: ['ID LUMINARIA', 'TIPO CONEXIÓN', 'PROPIEDAD', 'MEDIDO', 'DESCRIPCION', 'ROTULO'] });
     $('.ap__info_wrapper-luminariasAsociadas').css('display', 'none');
     $('.ap__info_wrapper-luminarias').css('display', 'flex');
+    $('.ap_wrapper-editor').css('visibility', 'hidden').css('display','none');
+    
 
+    myDisplayedLuminariaAsociada.setMyDisplayedAsociada('not displayed');
+    myDisplayedLuminaria.setMyDisplayedLuminaria('not displayed');
 
     if (this.state.onLuminarias == 0){
       this.setState({onLuminarias: 1});
-      console.log("onLuminarias prendido");
+
       $('.ap__info_wrapper-luminarias').css('visibility', 'visible');
+      myDisplayedLuminaria.setMyDisplayedLuminaria('displayed');
 
         if(this.state.onMedidor==0){
           console.log("onMedidor esta apagado");
           $('.ap__wrapper-tables').css('flex-direction', 'column');
           $('.ap__info_wrapper-medidores').css('display', 'none');
+          myDisplayedMedidor.setMyDisplayedMedidor('not displayed');
 
         }else{
           console.log("onMedidor visible");
           $('.ap__wrapper-tables').css('flex-direction', 'column-reverse');
+          myDisplayedMedidor.setMyDisplayedMedidor('displayed');
         }
 
 
@@ -151,7 +168,9 @@ class AlumbradoPublico extends React.Component {
         this.setState({onLuminarias: 0});
       $('.ap__info_wrapper-luminarias').css('visibility', 'hidden');
       $('.ap__info_wrapper-luminarias').css('display', 'none');
+      myDisplayedLuminaria.setMyDisplayedLuminaria('not displayed');
     }
+      console.log(myDisplayedLuminaria.getMyDisplayedLuminaria());
   }
 
   onChangeMap(){
@@ -228,25 +247,35 @@ class AlumbradoPublico extends React.Component {
   }
 
   onShowLumAsoc(){
-    console.log("showing related lights and drawing them");
-    $('.ap__info_wrapper-luminarias').css('display', 'none');
-    $('.ap__info_wrapper-luminarias').css('visibility', 'hidden');
-    this.setState({onLuminarias: 0});
 
-      if (myValuesSelected().read()==null){
-          console.log("debe guardar un valor de id medidor para mostrar luminarias asociadas");
+    if (this.state.onAsociadas == 0){
+      this.setState({onAsociadas: 1});
+
+      console.log("showing related lights and drawing them");
+      $('.ap__info_wrapper-luminarias').css('display', 'none');
+      $('.ap__info_wrapper-luminarias').css('visibility', 'hidden');
+      this.setState({onLuminarias: 0});
+      myDisplayedLuminaria.setMyDisplayedLuminaria('not displayed');
+
+        if (myValuesSelected().read()==null){
+            console.log("debe guardar un valor de id medidor para mostrar luminarias asociadas");
+        }else{
+            let myValues = myValuesSelected().read();
+            ap_getDataLuminariasAsociadas(this.state.settings.comuna,myValues['idMedidor'],(callback)=>{
+            this.setState({dataLuminariasAsociadas:callback.dataForTable});
+
+            //show griddle for luminarias asociadas
+              $('.ap__info_wrapper-luminariasAsociadas').css('display', 'flex');
+              $('.ap__info_wrapper-luminariasAsociadas').css('visibility', 'visible');
+              myDisplayedLuminariaAsociada.setMyDisplayedAsociada('displayed');
+          });
+        }
       }else{
-          let myValues = myValuesSelected().read();
-          ap_getDataLuminariasAsociadas(this.state.settings.comuna,myValues['idMedidor'],(callback)=>{
-          this.setState({dataLuminariasAsociadas:callback.dataForTable});
-
-          //show griddle for luminarias asociadas
-            $('.ap__info_wrapper-luminariasAsociadas').css('display', 'flex');
-            $('.ap__info_wrapper-luminariasAsociadas').css('visibility', 'visible');
-        });
+        this.setState({onAsociadas: 0});
+        $('.ap__info_wrapper-luminariasAsociadas').css('display', 'none');
+        $('.ap__info_wrapper-luminariasAsociadas').css('visibility', 'hidden');
       }
-
-
+    console.log(myDisplayedLuminariaAsociada.getMyDisplayedAsociada());
   }
 
   onShowMedidorAsoc(){
@@ -264,27 +293,37 @@ class AlumbradoPublico extends React.Component {
   }
 
   onShowRelatedLumAsoc(){
-    console.log("showing related streetlights for the cirtuit");
-    $('.ap__info_wrapper-medidores').css('display', 'none');
-    $('.ap__info_wrapper-medidores').css('visibility', 'hidden');
+    console.log(this.state.onAsociadas);
+    if (this.state.onAsociadas == 0){
+      this.setState({onAsociadas: 1});
+
+      console.log("showing related streetlights for the cirtuit");
+      $('.ap__info_wrapper-medidores').css('display', 'none');
+      $('.ap__info_wrapper-medidores').css('visibility', 'hidden');
       this.setState({onMedidor: 0});
 
-    if (myValuesSelected().read()==null){
-        console.log("debe guardar un valor de id medidor para mostrar luminarias asociadas");
-    }else{
-      let myValues = myValuesSelected().read();
+      if (myValuesSelected().read()==null){
+          console.log("debe guardar un valor de id medidor para mostrar luminarias asociadas");
+      }else{
+        let myValues = myValuesSelected().read();
 
-      if(myValues['idEquipoLuminaria']==0){
-        console.log("no hay id equipo para esta luminaria, no se puede encontrar relación entre luminarias.");
-        return;
+        if(myValues['idEquipoLuminaria']==0){
+          console.log("no hay id equipo para esta luminaria, no se puede encontrar relación entre luminarias.");
+          return;
+        }
+        ap_getDataLuminariasAsociadas(this.state.settings.comuna,myValues['idEquipoLuminaria'],(callback)=>{
+        this.setState({dataLuminariasAsociadas:callback.dataForTable});
+
+        //show griddle for luminarias asociadas
+          $('.ap__info_wrapper-luminariasAsociadas').css('display', 'flex');
+          $('.ap__info_wrapper-luminariasAsociadas').css('visibility', 'visible');
+        });
       }
-      ap_getDataLuminariasAsociadas(this.state.settings.comuna,myValues['idEquipoLuminaria'],(callback)=>{
-      this.setState({dataLuminariasAsociadas:callback.dataForTable});
 
-      //show griddle for luminarias asociadas
-        $('.ap__info_wrapper-luminariasAsociadas').css('display', 'flex');
-        $('.ap__info_wrapper-luminariasAsociadas').css('visibility', 'visible');
-    });
+    }else{
+      this.setState({onAsociadas: 0});
+      $('.ap__info_wrapper-luminariasAsociadas').css('display', 'none');
+      $('.ap__info_wrapper-luminariasAsociadas').css('visibility', 'hidden');
     }
 
 
@@ -321,6 +360,7 @@ class AlumbradoPublico extends React.Component {
 
   render(){
     let region = this.state.settings.comuna;
+    let noneStyle = {display: 'none'};
     return (
     <div className="ap__wrapper">
 
@@ -341,7 +381,7 @@ class AlumbradoPublico extends React.Component {
 
     <div className="ap__wrapper-tables">
 
-      <div className="ap__info_wrapper-medidores">
+      <div id ="wrapper_medidores" style={noneStyle} className="ap__info_wrapper-medidores">
         <div className="medidores_filter">
           <div className="medidores_tools">
             <div className="medidores_tools_h6 h6_medidores"><h6>Medidores</h6></div>
@@ -361,7 +401,7 @@ class AlumbradoPublico extends React.Component {
         </div>
       </div>
 
-      <div className="ap__info_wrapper-luminariasAsociadas">
+      <div id ="wrapper_luminariasAsociadas" style={noneStyle} className="ap__info_wrapper-luminariasAsociadas">
         <div className="medidores_filter">
           <div className="medidores_tools">
             <div className="medidores_tools_h6 h6_luminariasAsociadas"><h6>Lum.Asoc </h6></div>
@@ -377,7 +417,7 @@ class AlumbradoPublico extends React.Component {
         </div>
       </div>
 
-      <div className="ap__info_wrapper-luminarias">
+      <div id ="wrapper_luminarias" style={noneStyle} className="ap__info_wrapper-luminarias">
         <div className="medidores_filter">
           <div className="medidores_tools">
             <div className="medidores_tools_h6 h6_luminarias"><h6>Luminarias</h6></div>

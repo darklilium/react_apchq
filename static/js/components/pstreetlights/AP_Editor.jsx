@@ -10,14 +10,22 @@ class APEditor extends React.Component {
   constructor(props){
     super(props);
     this.onClickEditor = this.onClickEditor.bind(this);
+    this.onClickClose = this.onClickClose.bind(this);
   }
 
   onClickEditor(){
     console.log("clicking button");
   }
+
+  onClickClose(){
+    $('.ap_wrapper-editor').css('visibility', 'hidden').css('display','none');
+  }
   render(){
     return (
     <div className="ap_wrapper-editor">
+    <button className="ap_editor_button-close ap__editor_button ap__editor_button-bot btn btn-default" title="Cerrar Ventana" type="button" onClick={this.onClickClose} >
+      <span><i className="fa fa-close"></i></span>
+    </button>
       <Tabs>
         <TabList>
           <Tab><i className="fa fa-info"></i></Tab>

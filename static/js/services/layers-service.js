@@ -2,7 +2,7 @@ import token from '../services/token-service';
 import myinfotemplate from '../utils/infoTemplates';
 import mymap from '../services/map-service';
 import {ap_infoWindow} from '../utils/makeInfoWindow';
-
+import {ap_showEditor} from '../services/ap_services/ap_editData-service';
 function myLayers(){
   //const serviceMain = 'http://gisred.chilquinta/arcgis/';
   //change this for external connection:
@@ -121,6 +121,7 @@ function myLayers(){
 
 //TO DO: this function sets the layers that will be added in the app, integrating the infowindow and their special properties.
 function setLayers(){
+
   return {
     alimentadores(){
       var layerAlimentador = new esri.layers.ArcGISDynamicMapServiceLayer(myLayers().read_layerAlimentador(),{id:"gis_alimentadores"});
@@ -184,6 +185,7 @@ function setLayers(){
       outFields: ["*"]});
       apLuminariasLayer.setDefinitionExpression(whereRegion);
 
+      //ON MOUSE OVER EVENT
       apLuminariasLayer.on('mouse-over',(evt)=>{
 
         ap_infoWindow(evt.graphic.attributes['ID_LUMINARIA'],
@@ -194,6 +196,9 @@ function setLayers(){
           evt.graphic.attributes['MEDIDO_TERRENO'],
           evt.graphic.geometry);
 
+      });
+      apLuminariasLayer.on('click', (evt)=>{
+        ap_showEditor(evt.graphic)
       });
 
       return apLuminariasLayer;

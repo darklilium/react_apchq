@@ -70,5 +70,35 @@ function myValuesSelected(){
 
 
 
+var myDisplayedMedidor = {
+  setMyDisplayedMedidor: function(medidor){
+    this.myDisplayedMedidor = medidor;
+
+  },
+  getMyDisplayedMedidor: function(){
+    return this.myDisplayedMedidor;
+  }
+};
+
+var myDisplayedLuminaria = {
+  setMyDisplayedLuminaria: function(luminaria){
+    this.myDisplayedLuminaria = luminaria;
+
+  },
+  getMyDisplayedLuminaria: function(){
+    return this.myDisplayedLuminaria;
+  }
+};
+
+var myDisplayedLuminariaAsociada = {
+  setMyDisplayedAsociada: function(asociada){
+    this.myDisplayedLuminariaAsociada = asociada;
+
+  },
+  getMyDisplayedAsociada: function(){
+    return this.myDisplayedLuminariaAsociada;
+  }
+};
+
 export default my_AP_Settings();
-export {myValuesSelected};
+export {myValuesSelected,myDisplayedMedidor,myDisplayedLuminaria,myDisplayedLuminariaAsociada};

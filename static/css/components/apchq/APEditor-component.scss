@@ -10,7 +10,7 @@ $fontSize11px: 11px;
   bottom: 0;
   height: 320px;
   position: fixed;
-  z-index: 2;
+  z-index: 5;
   background: ghostwhite;
   visibility: hidden;
 }
@@ -59,6 +59,15 @@ $fontSize11px: 11px;
   margin: 0.5em;
 }
 
+.ap_editor_button-close{
+  display: flex;
+  position: absolute;
+  right: 0;
+  border: 0;
+  background: ghostwhite;
+}
+
+
 @media screen and (max-width: 1024px) and (min-width:481px) and (orientation: landscape)  {
   .ap_wrapper-editor{
     width: 30%;
@@ -68,7 +77,7 @@ $fontSize11px: 11px;
     bottom: 0;
     position: fixed;
     height: 320px;
-    z-index: 2;
+      z-index: 5;
   }
 
   .ap_wrapper-editor-top{
@@ -126,7 +135,7 @@ $fontSize11px: 11px;
     bottom: 0;
     position: fixed;
     height: 300px;
-    z-index: 2;
+      z-index: 5;
   }
 
   .ap_wrapper-editor-top{
@@ -183,7 +192,7 @@ $fontSize11px: 11px;
     bottom: 0;
     position: fixed;
     height: 285px;
-    z-index: 2;
+      z-index: 5;
   }
 
   .ap_wrapper-editor-top{
