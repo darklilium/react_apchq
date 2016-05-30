@@ -87,6 +87,17 @@ visibility: hidden;
   background: lightseagreen;
 }
 
+
+@media screen and (max-width: 640px) and (min-width:481px) and (orientation: portrait)  {
+
+  //select all the elements inside the parent element.
+  .ap__wrapper-tables input{
+    max-width: 7em;
+    margin-left: 2px;
+    margin-right: 2px;
+  }
+}
+
 @media screen and (max-width: 640px) and (min-width:481px) and (orientation: landscape)  {
   .griddle{
 
@@ -96,6 +107,7 @@ visibility: hidden;
       margin: 0;
 
   }
+
 }
 @media screen and (max-width: 480px) and (min-width:320px) and (orientation: portrait)  {
   .ap__info_wrapper{
@@ -138,9 +150,11 @@ visibility: hidden;
   }
 
   .medidores_tools{
-
     min-width : 10%;
-
+  }
+  //select all the elements inside the parent element.
+  .ap__wrapper-tables input{
+    width: 5em;
   }
 }
 
@@ -190,6 +204,10 @@ visibility: hidden;
 
     min-width : 13%;
 
+  }
+  //select all the elements inside the parent element.
+  .ap__wrapper-tables input{
+    width: 7em;
   }
 
 }

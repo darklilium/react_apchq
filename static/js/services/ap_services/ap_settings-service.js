@@ -67,17 +67,8 @@ function myValuesSelected(){
   };
 }
 
-var tableDataMedidores = {
-  setDataMedidores: function(region,dataMedidores){
-    this.tableDataMedidores = [region,dataMedidores];
-    return this.tableDataMedidores;
 
-  },
-  getDataMedidores: function(){
-    return this.tableDataMedidores;
-  }
-};
 
 
 export default my_AP_Settings();
-export {myValuesSelected,tableDataMedidores};
+export {myValuesSelected};

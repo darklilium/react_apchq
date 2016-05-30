@@ -17,8 +17,8 @@
 
 <i>English</i>
 
-<h1>Public Street Lights Project APP</h1>
-<strong>Objective: Management information app for public street lights that the company offers to the city hall</strong>
+<h1>Public Street Lights Project </h1>
+<strong>Objective: Information Management for public street lights that the company offers to the city hall</strong>
 
 <b>Specifications:</b>
 
@@ -29,5 +29,4 @@
     <li>Draw the electric network and elements associated with each PSL.</li>
     <li>Modify the PSL information.</li>
     <li>Export data to Excel </li>
-
 </ul>

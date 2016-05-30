@@ -213,11 +213,15 @@ class AlumbradoPublico extends React.Component {
         console.log("debe guardar un valor de id luminaria");
       }else{
         let myValues = myValuesSelected().read();
+        if(myValues['idEquipoLuminaria']==0){
+          console.log("no hay id equipo para esta luminaria, no se puede dibujar tramo.");
+          return;
+        }
         ap_getTramosMedidor(myValues['idEquipoLuminaria'], this.state.settings.comuna);
       }
     break;
 
-      default:
+    default:
 
     }
 
@@ -250,7 +254,11 @@ class AlumbradoPublico extends React.Component {
       if (myValuesSelected().read()==null){
         console.log("debe guardar un valor de id medidor para mostrar su ubicación a la luminaria asociada");
       }else{
-        let myValues = myValuesSelected().read();
+          let myValues = myValuesSelected().read();
+        if(myValues['idEquipoLuminaria']==0){
+          console.log("no hay id equipo para esta luminaria, no se puede dibujar tramo.");
+          return;
+        }
         ap_getMedidorLocation(myValues['idEquipoLuminaria']);
       }
   }
@@ -265,6 +273,11 @@ class AlumbradoPublico extends React.Component {
         console.log("debe guardar un valor de id medidor para mostrar luminarias asociadas");
     }else{
       let myValues = myValuesSelected().read();
+
+      if(myValues['idEquipoLuminaria']==0){
+        console.log("no hay id equipo para esta luminaria, no se puede encontrar relación entre luminarias.");
+        return;
+      }
       ap_getDataLuminariasAsociadas(this.state.settings.comuna,myValues['idEquipoLuminaria'],(callback)=>{
       this.setState({dataLuminariasAsociadas:callback.dataForTable});
 
@@ -278,8 +291,6 @@ class AlumbradoPublico extends React.Component {
   }
 
   onDownLoad(event){
-
-
     switch (event.currentTarget.id) {
       case 'btnDownloadInfoMedidor':
         console.log("boton medidor download");
@@ -298,7 +309,7 @@ class AlumbradoPublico extends React.Component {
       case 'btnDownloadInfoLuminarias':
         console.log("boton luminarias download");
           //ap_exportGraphicsToPDF(this.state.dataLuminarias,'LUMINARIAS');
-        
+
           ap_exportToExcel(this.state.dataLuminarias,'Luminarias de '+this.state.settings.comuna, this.state.columnsMedidores);
 
       break;
