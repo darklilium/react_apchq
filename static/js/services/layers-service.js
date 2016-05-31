@@ -115,7 +115,11 @@ function myLayers(){
     },
     read_ap_tramos(){
         return serviceURL + "AP_Municipal/AP_MUNICIPAL/MapServer/2?f=json&token=" + token.read();
+    },
+    read_ap_catastro_fotos(){
+        return serviceURL + "AP_Municipal/AP_MUNICIPAL/FeatureServer/10?f=json&token=" + token.read();
     }
+
   };
 }
 
@@ -200,8 +204,6 @@ function setLayers(){
       apLuminariasLayer.on('click', (evt)=>{
         ap_showEditor(evt);
       });
-
-
 
       return apLuminariasLayer;
     },

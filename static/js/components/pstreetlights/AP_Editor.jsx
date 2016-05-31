@@ -1,8 +1,30 @@
 import React from 'react';
 import ReactTabs from 'react-tabs';
+import cookieHandler from 'cookie-handler';
 import { createStore, combineReducers } from 'redux';
 
+//redux
+//Reducer del componente para la accion del layer.
 
+function EditorState(previousState = [], action){
+  switch(action.type){
+    case 'CLICKED':
+      return cookieHandler.get('crrntgrphc');
+
+    default:
+      return previousState;
+  }
+}
+
+
+
+//combinar reducers en uno
+var rootReducer = combineReducers({ EditorState });
+
+//crea la store
+var store = createStore(rootReducer);
+
+/* EDITOR COMPONENT  */
 var Tab = ReactTabs.Tab;
 var Tabs = ReactTabs.Tabs;
 var TabList = ReactTabs.TabList;
@@ -16,9 +38,11 @@ var TabPanel = ReactTabs.TabPanel;
 
     this.onClickEditor = this.onClickEditor.bind(this);
     this.onClickClose = this.onClickClose.bind(this);
-    this.setAttributes  = this.setAttributes.bind(this);
+    this.onChangeTipoConexion = this.onChangeTipoConexion.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
 
     this.state = {
+      selectedTab: 0,
       idlum: '',
       idnodo: '',
       tipoconexion: '',
@@ -27,22 +51,44 @@ var TabPanel = ReactTabs.TabPanel;
       propiedad: '',
       empresa:'',
       rotulo:'',
-      observaciones: ''
+      observaciones: '',
+      pics: '',
+      currentPic: ''
     };
 
   }
-  componentDidMount(){
-    return function(){
-       store.dispatch({
-         type: 'CLICKED'
-       });
-     };
+  static layerClicked(){
+
+    store.dispatch({
+      type: 'CLICKED'
+    })
   }
 
-  setAttributes(evt){
-    console.log("hello",evt);
-    this.setState({idlum: evt.graphic.attributes['ID_LUMINARIA']});
+  componentDidMount(){
+    store.subscribe(()=> {
+      var myClickedGraphic = store.getState().EditorState;
+      console.log('nuevo estado',store.getState().EditorState);
+      this.setState({
+        idlum: myClickedGraphic.graphics.ID_LUMINARIA,
+        idnodo: myClickedGraphic.graphics.ID_NODO,
+        tipoconexion: myClickedGraphic.graphics.TIPO_CONEXION,
+        tipoluminaria: myClickedGraphic.graphics.TIPO,
+        potencia: myClickedGraphic.graphics.POTENCIA,
+        propiedad: myClickedGraphic.graphics.PROPIEDAD,
+        empresa:myClickedGraphic.graphics.EMPRESA,
+        rotulo:myClickedGraphic.graphics.ROTULO,
+        observaciones: myClickedGraphic.graphics.OBSERVACION,
+        pics: myClickedGraphic.pics,
+        currentPic: myClickedGraphic.pics[0].url
+      });
+    });
   }
+
+  onChangeTipoConexion(e){
+    console.log(e.target.value);
+    this.setState({tipoconexion: e.target.value});
+  }
+
   onClickEditor(){
     console.log("clicking button");
   }
@@ -50,15 +96,29 @@ var TabPanel = ReactTabs.TabPanel;
   onClickClose(){
     $('.ap_wrapper-editor').css('visibility', 'hidden').css('display','none');
   }
+
+  handleSelect(index, last){
+    this.setState({selectedTab: index});
+
+    var myClickedGraphic = store.getState().EditorState;
+      console.log('nuevo estado fotos',store.getState().EditorState);
+      console.log(myClickedGraphic.pics[0].url);
+      this.setState({
+      pics: myClickedGraphic.pics,
+      currentPic:  myClickedGraphic.pics[0].url
+      });
+
+
+  }
+
   render(){
-     const basketProducts = store.getState().EditorState;
 
     return (
     <div className="ap_wrapper-editor">
     <button className="ap_editor_button-close ap__editor_button ap__editor_button-bot btn btn-default" title="Cerrar Ventana" type="button" onClick={this.onClickClose} >
       <span><i className="fa fa-close"></i></span>
     </button>
-      <Tabs>
+      <Tabs onSelect={this.handleSelect} selectedIndex={this.state.selectedTab}>
         <TabList>
           <Tab><i className="fa fa-info"></i></Tab>
           <Tab><i className="fa fa-camera button-span" aria-hidden="true"></i></Tab>
@@ -73,22 +133,26 @@ var TabPanel = ReactTabs.TabPanel;
 
           <div className="ap_wrapper-editor-mid">
             <h8>Tipo Conexión:</h8>
-            <select id="ap_cbTipoConexion" className="ap__editor-combobox" title="Elija una opción " ref="searchType" value={this.state.tipoconexion}>
-              <option value="DIRECTOREDBT">Directo Red BT</option>
-              <option value="HILOPILOTO">Hilo Piloto</option>
-              <option value="INDETERMINADA">Indeterminada</option>
-              <option value="REDAP">Red AP</option></select>
+            <select id="ap_cbTipoConexion" className="ap__editor-combobox" title="Elija una opción " ref="searchType"
+                    value={this.state.tipoconexion} onChange={this.onChangeTipoConexion}>
+              <option value="" disabled>--Seleccione</option>
+              <option value="Directo a Red BT">Directo a Red BT</option>
+              <option value="Hilo Piloto">Hilo Piloto</option>
+              <option value="Indeterminada">Indeterminada</option>
+              <option value="Red AP">Red AP</option></select>
             <h8>Tipo:</h8>
             <select id="ap_cbTipoLuminaria" className="ap__editor-combobox" title="Elija una opción " ref="searchType"  value={this.state.tipoluminaria}>
+              <option value="" disabled>--Seleccione</option>
               <option value="NA">NA</option>
-              <option value="HG">HG</option>
-              <option value="HALOGENO">Halogeno</option>
-              <option value="HALUROMETALICO">Haluro Metálico</option>
-              <option value="INCANDESCENTE">Incandescente</option>
+              <option value="Hg">Hg</option>
+              <option value="Halogeno">Halogeno</option>
+              <option value="Haluro Metalico">Haluro Metálico</option>
+              <option value="Incandescente">Incandescente</option>
               <option value="LED">LED</option>
-              <option value="ORNAMENTAL">Ornamental</option></select>
+              <option value="Ornamental">Ornamental</option></select>
             <h8>Potencia:</h8>
             <select id="ap_cbPotenciaLuminaria" className="ap__editor-combobox" title="Elija una opción " ref="searchType"  value={this.state.potencia}>
+              <option value="" disabled>--Seleccione</option>
               <option value="70">70</option>
               <option value="80">80</option>
               <option value="90">90</option>
@@ -107,11 +171,12 @@ var TabPanel = ReactTabs.TabPanel;
               <option value="1000">1000</option></select>
             <h8>Propiedad:</h8>
             <select id="ap_cbPropiedadLuminaria" className="ap__editor-combobox" title="Elija una opción de búsqueda" ref="searchType" value={this.state.propiedad}>
-              <option value="EMPRESA">Empresa</option>
-              <option value="PARTICULAR">Particular</option>
-              <option value="MUNICIPAL">Municipal</option>
-              <option value="OTRO">Otro</option>
-              <option value="VIRTUAL">Virtual</option></select>
+              <option value="" disabled>--Seleccione</option>
+              <option value="Empresa">Empresa</option>
+              <option value="Particular">Particular</option>
+              <option value="Municipal">Municipal</option>
+              <option value="Otro">Otro</option>
+              <option value="Virtual">Virtual</option></select>
             <h8>Rótulo Poste:</h8>
             <input id="ap_txtRotuloLuminaria" className="ap__editor-input" ref="rotuloValue" title="Ingrese Rotulo" type="text" placeholder="Rotulo de la luminaria" value={this.state.rotulo} />
             <h8>Observaciones:</h8>
@@ -139,14 +204,14 @@ var TabPanel = ReactTabs.TabPanel;
                 </button>
                  <h8>1</h8>
                  <h8>de</h8>
-                 <h8>2</h8>
+                 <h8>{this.state.pics.length}</h8>
                 <button className="btn btn-default" title="Ver Fotos" type="button">
                   <span><i className="fa fa-chevron-right button-span"></i></span>
                 </button>
               </div>
 
               <div className="ap_wrapper_picture-mid">
-                  <img></img>
+                  <img className="ap_editor_img-picture" src={this.state.currentPic}></img>
               </div>
               <div className="ap_wrapper_picture-bot">
                   <button className="btn btn-default" title="Actualizar" type="button">
@@ -164,26 +229,7 @@ var TabPanel = ReactTabs.TabPanel;
   }
 }
 
-//redux
-//Reducer del componente.
 
-function EditorState(previousState = [], action){
-  switch(action.type){
-    case 'CLICKED':
-    console.log("aa");
-      return cookieHandler.get('crrntgrphc');
 
-    default:
-      return previousState;
-  }
-}
-
-//combinar reducers en uno
-var rootReducer = combineReducers({ EditorState });
-
-//crea la store
-var store = createStore(rootReducer);
-
-store.subscribe(()=> console.log('nuevo estado',store.getState()));
 
 export default APEditor;

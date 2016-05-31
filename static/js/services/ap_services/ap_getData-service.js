@@ -51,7 +51,7 @@ function ap_getDataLuminarias(comuna,callback){
           "MEDIDO": result.attributes['MEDIDO_TERRENO'],
           "DESCRIPCION": result.attributes['DESCRIPCION'],
           "ROTULO": result.attributes['ROTULO'],
-          "ID EQUIPO": result.attributes['ID_EQUIPO_AP'] 
+          "ID EQUIPO": result.attributes['ID_EQUIPO_AP']
         };
         return children;
       });

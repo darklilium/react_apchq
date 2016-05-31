@@ -48,7 +48,7 @@ $fontSize11px: 11px;
 .ap_wrapper_picture-mid{
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   margin: 0.5em;
   height: 175px;
 }
@@ -67,7 +67,10 @@ $fontSize11px: 11px;
   background: ghostwhite;
 }
 
-
+.ap_editor_img-picture{
+  width: inherit;
+  height: inherit;
+}
 @media screen and (max-width: 1024px) and (min-width:481px) and (orientation: landscape)  {
   .ap_wrapper-editor{
     width: 30%;
