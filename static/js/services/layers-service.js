@@ -198,8 +198,10 @@ function setLayers(){
 
       });
       apLuminariasLayer.on('click', (evt)=>{
-        ap_showEditor(evt.graphic)
+        ap_showEditor(evt);
       });
+
+
 
       return apLuminariasLayer;
     },
@@ -237,7 +239,7 @@ function layersActivated(){
 }
 
 // TO DO: this function add the default and not defaults layer (from the layerlist) in the app.
-function addCertainLayer(layerNameToAdd, order, where){
+function addCertainLayer(layerNameToAdd, order, where, callback){
   var mapp = mymap.getMap();
   var myLayerToAdd;
 
@@ -259,6 +261,7 @@ function addCertainLayer(layerNameToAdd, order, where){
 
     case 'ap_luminarias':
       myLayerToAdd = setLayers().ap_luminarias(where,6);
+
     break;
 
     case 'ap_modificaciones':
@@ -279,6 +282,7 @@ function addCertainLayer(layerNameToAdd, order, where){
   if (check_ap_modificaciones.checked){
     mapp.addLayer(setLayers().ap_modificaciones(), 1);
   }
+
 
 }
 export default myLayers();

@@ -6,6 +6,7 @@ import {myValuesSelected} from '../../../js/services/ap_services/ap_settings-ser
 import mymap from '../../../js/services/map-service';
 import layers from '../../../js/services/layers-service';
 
+
 var HeaderComponent = React.createClass({
   textOnClick: function(e) {
     e.stopPropagation();
@@ -29,7 +30,7 @@ class APInfo extends React.Component {
   constructor(props){
     super(props);
     this.onRowClick = this.onRowClick.bind(this);
-    myValuesSelected().delete();
+
   }
 
 

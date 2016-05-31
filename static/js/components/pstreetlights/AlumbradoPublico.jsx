@@ -85,6 +85,8 @@ class AlumbradoPublico extends React.Component {
       this.setState({dataLuminarias:callback});
     });
 
+  
+
   }
 
   onSearch(){
@@ -140,7 +142,7 @@ class AlumbradoPublico extends React.Component {
     $('.ap__info_wrapper-luminariasAsociadas').css('display', 'none');
     $('.ap__info_wrapper-luminarias').css('display', 'flex');
     $('.ap_wrapper-editor').css('visibility', 'hidden').css('display','none');
-    
+
 
     myDisplayedLuminariaAsociada.setMyDisplayedAsociada('not displayed');
     myDisplayedLuminaria.setMyDisplayedLuminaria('not displayed');
