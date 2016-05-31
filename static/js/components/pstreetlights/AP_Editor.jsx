@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTabs from 'react-tabs';
-
+import { createStore, combineReducers } from 'redux';
 
 
 var Tab = ReactTabs.Tab;
@@ -11,17 +11,33 @@ var TabPanel = ReactTabs.TabPanel;
   class APEditor extends React.Component {
   constructor(props){
     super(props);
+    // suscribe.
+    store.subscribe(this.forceUpdate.bind(this));
 
     this.onClickEditor = this.onClickEditor.bind(this);
     this.onClickClose = this.onClickClose.bind(this);
     this.setAttributes  = this.setAttributes.bind(this);
 
     this.state = {
-      idlum: ''
+      idlum: '',
+      idnodo: '',
+      tipoconexion: '',
+      tipoluminaria: '',
+      potencia: '',
+      propiedad: '',
+      empresa:'',
+      rotulo:'',
+      observaciones: ''
     };
 
-  } 
-
+  }
+  componentDidMount(){
+    return function(){
+       store.dispatch({
+         type: 'CLICKED'
+       });
+     };
+  }
 
   setAttributes(evt){
     console.log("hello",evt);
@@ -35,6 +51,8 @@ var TabPanel = ReactTabs.TabPanel;
     $('.ap_wrapper-editor').css('visibility', 'hidden').css('display','none');
   }
   render(){
+     const basketProducts = store.getState().EditorState;
+
     return (
     <div className="ap_wrapper-editor">
     <button className="ap_editor_button-close ap__editor_button ap__editor_button-bot btn btn-default" title="Cerrar Ventana" type="button" onClick={this.onClickClose} >
@@ -50,18 +68,18 @@ var TabPanel = ReactTabs.TabPanel;
 
           <div className="ap_wrapper-editor-top">
             <h8 id="ap_lblIDLuminaria">ID Luminaria: {this.state.idlum}</h8>
-            <h8 id="ap_lblIDNodo">ID Nodo:</h8>
+            <h8 id="ap_lblIDNodo">ID Nodo: {this.state.idnodo}</h8>
           </div>
 
           <div className="ap_wrapper-editor-mid">
             <h8>Tipo Conexión:</h8>
-            <select id="ap_cbTipoConexion" className="ap__editor-combobox" title="Elija una opción " ref="searchType">
+            <select id="ap_cbTipoConexion" className="ap__editor-combobox" title="Elija una opción " ref="searchType" value={this.state.tipoconexion}>
               <option value="DIRECTOREDBT">Directo Red BT</option>
               <option value="HILOPILOTO">Hilo Piloto</option>
               <option value="INDETERMINADA">Indeterminada</option>
               <option value="REDAP">Red AP</option></select>
             <h8>Tipo:</h8>
-            <select id="ap_cbTipoLuminaria" className="ap__editor-combobox" title="Elija una opción " ref="searchType">
+            <select id="ap_cbTipoLuminaria" className="ap__editor-combobox" title="Elija una opción " ref="searchType"  value={this.state.tipoluminaria}>
               <option value="NA">NA</option>
               <option value="HG">HG</option>
               <option value="HALOGENO">Halogeno</option>
@@ -70,7 +88,7 @@ var TabPanel = ReactTabs.TabPanel;
               <option value="LED">LED</option>
               <option value="ORNAMENTAL">Ornamental</option></select>
             <h8>Potencia:</h8>
-            <select id="ap_cbPotenciaLuminaria" className="ap__editor-combobox" title="Elija una opción " ref="searchType">
+            <select id="ap_cbPotenciaLuminaria" className="ap__editor-combobox" title="Elija una opción " ref="searchType"  value={this.state.potencia}>
               <option value="70">70</option>
               <option value="80">80</option>
               <option value="90">90</option>
@@ -88,16 +106,16 @@ var TabPanel = ReactTabs.TabPanel;
               <option value="500">500</option>
               <option value="1000">1000</option></select>
             <h8>Propiedad:</h8>
-            <select id="ap_cbPropiedadLuminaria" className="ap__editor-combobox" title="Elija una opción de búsqueda" ref="searchType">
+            <select id="ap_cbPropiedadLuminaria" className="ap__editor-combobox" title="Elija una opción de búsqueda" ref="searchType" value={this.state.propiedad}>
               <option value="EMPRESA">Empresa</option>
               <option value="PARTICULAR">Particular</option>
               <option value="MUNICIPAL">Municipal</option>
               <option value="OTRO">Otro</option>
               <option value="VIRTUAL">Virtual</option></select>
             <h8>Rótulo Poste:</h8>
-            <input id="ap_txtRotuloLuminaria" className="ap__editor-input" ref="rotuloValue" title="Ingrese Rotulo" type="text" placeholder="" />
+            <input id="ap_txtRotuloLuminaria" className="ap__editor-input" ref="rotuloValue" title="Ingrese Rotulo" type="text" placeholder="Rotulo de la luminaria" value={this.state.rotulo} />
             <h8>Observaciones:</h8>
-            <input id="ap_txtObsLuminaria" className="ap__editor-input" ref="obsValue" title="Observación" type="text" placeholder="" />
+            <input id="ap_txtObsLuminaria" className="ap__editor-input" ref="obsValue" title="Observación" type="text" placeholder="Sus observaciones aquí" value={this.state.observaciones}/>
           </div>
 
           <div className="ap_wrapper-editor-bot">
@@ -145,5 +163,27 @@ var TabPanel = ReactTabs.TabPanel;
     );
   }
 }
+
+//redux
+//Reducer del componente.
+
+function EditorState(previousState = [], action){
+  switch(action.type){
+    case 'CLICKED':
+    console.log("aa");
+      return cookieHandler.get('crrntgrphc');
+
+    default:
+      return previousState;
+  }
+}
+
+//combinar reducers en uno
+var rootReducer = combineReducers({ EditorState });
+
+//crea la store
+var store = createStore(rootReducer);
+
+store.subscribe(()=> console.log('nuevo estado',store.getState()));
 
 export default APEditor;

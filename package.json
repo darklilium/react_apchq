@@ -31,7 +31,8 @@
     "react-native": "~0.24.1",
     "jspdf": "~1.2.61",
     "jspdf-autotable": "~2.0.25",
-    "cookie-handler": "~1.0.1"
+    "cookie-handler": "~1.0.1",
+    "redux": "~3.5.2"
   },
   "devDependencies": {
     "babel-core": "^6.6.5",

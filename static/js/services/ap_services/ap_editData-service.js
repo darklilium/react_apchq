@@ -1,6 +1,8 @@
 import cookieHandler from 'cookie-handler';
 import APEditor from '../../../js/components/pstreetlights/AP_Editor.jsx';
 
+
+
 function ap_showEditor(event){
   var elementMedidor = document.getElementById('wrapper_medidores');
   var elementLuminaria = document.getElementById('wrapper_luminarias');
@@ -11,7 +13,8 @@ function ap_showEditor(event){
   if ((elementMedidor.style.display=='none') && (elementLuminaria.style.display=='none') && (elementLuminariaAsociada.style.display=='none')){
     console.log("Esta apagado todo");
     $('.ap_wrapper-editor').css('visibility', 'visible').css('display','flex');
-  
+    //console.log(event.graphic.attributes);
+    cookieHandler.set('crrntgrphc',event.graphic.attributes);
 
 
   }else{
