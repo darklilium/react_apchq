@@ -69,8 +69,7 @@ var TabPanel = ReactTabs.TabPanel;
       rotulo:'',
       observaciones: '',
       pics: [],
-      currentPic: noImg,
-      currentPicNumber: 0
+      currentPic: noImg
     };
 
   }
@@ -85,30 +84,20 @@ var TabPanel = ReactTabs.TabPanel;
     store.subscribe(()=> {
       var myClickedGraphic = store.getState().EditorState;
 
-      this.setState({
-        idlum: myClickedGraphic.graphics.ID_LUMINARIA,
-        idnodo: myClickedGraphic.graphics.ID_NODO,
-        tipoconexion: myClickedGraphic.graphics.TIPO_CONEXION,
-        tipoluminaria: myClickedGraphic.graphics.TIPO,
-        potencia: myClickedGraphic.graphics.POTENCIA,
-        propiedad: myClickedGraphic.graphics.PROPIEDAD,
-        empresa:myClickedGraphic.graphics.EMPRESA,
-        rotulo:myClickedGraphic.graphics.ROTULO,
-        observaciones: myClickedGraphic.graphics.OBSERVACION,
-        pics: myClickedGraphic.pics
+        this.setState({
+          idlum: myClickedGraphic.graphics.ID_LUMINARIA,
+          idnodo: myClickedGraphic.graphics.ID_NODO,
+          tipoconexion: myClickedGraphic.graphics.TIPO_CONEXION,
+          tipoluminaria: myClickedGraphic.graphics.TIPO,
+          potencia: myClickedGraphic.graphics.POTENCIA,
+          propiedad: myClickedGraphic.graphics.PROPIEDAD,
+          empresa:myClickedGraphic.graphics.EMPRESA,
+          rotulo:myClickedGraphic.graphics.ROTULO,
+          observaciones: myClickedGraphic.graphics.OBSERVACION,
+          pics: myClickedGraphic.pics
       });
-      if (!myClickedGraphic.pics.length){
-        console.log("Theres no pics here, show the img no available");
-        return;
-      }else{
-        //show the first pic
-          this.setState({
-            currentPic: myClickedGraphic.pics[this.state.currentPicNumber].url
-          });
-      }
     });
   }
-
   onChangeTipoConexion(e){
     console.log(e.target.value);
     this.setState({tipoconexion: e.target.value});
@@ -125,29 +114,39 @@ var TabPanel = ReactTabs.TabPanel;
   handleSelect(index, last){
     this.setState({selectedTab: index});
 
-    var myClickedGraphic = store.getState().EditorState;
+    /*  var myClickedGraphic = store.getState().EditorState;
 
-      //if doesnt have any pics to show
-      if (!myClickedGraphic.pics.length){
-        this.setState({
-        currentPic: noImg
-        });
+        //if doesnt have any pics to show
+        if (!myClickedGraphic.pics.length){
+          this.setState({
+          currentPic: noImg
+          });
 
-      }else{
-        this.setState({
-        pics: myClickedGraphic.pics,
-        currentPic:  myClickedGraphic.pics[this.state.currentPicNumber].url
-        });
-      }
-
+        }else{
+          this.setState({
+          pics: myClickedGraphic.pics,
+          currentPic:  myClickedGraphic.pics[this.state.currentPicNumber].url
+          });
+        }
+    */
   }
 
   onClickNextPic(){
-    store.dispatch({type: 'INCREMENT'})
+    var mypicsarr = this.state.pics;
+      console.log(mypicsarr[store.getState().PictureCounter].url);
+    store.dispatch({type: 'INCREMENT', mypicsarr});
+    console.log(store.getState().PictureCounter,"mi index al incrementar");
+    let mycurrentpicselected = mypicsarr[store.getState().PictureCounter-1].url;
+    this.setState({currentPic: mycurrentpicselected});
   }
 
   onClickPrevPic(){
-    store.dispatch({type: 'DECREMENT'})
+    var mypicsarr = this.state.pics;
+    console.log(mypicsarr);
+    store.dispatch({type: 'DECREMENT', mypicsarr});
+    console.log(store.getState().PictureCounter,"mi index al decrementar");
+    let mycurrentpicselected = mypicsarr[store.getState().PictureCounter-1].url;
+    this.setState({currentPic: mycurrentpicselected});
   }
   render(){
 
