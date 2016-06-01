@@ -1,3 +1,4 @@
+var noImg = "dist/css/images/cityhall_images/imgnoavailable.jpg";
 import React from 'react';
 import ReactTabs from 'react-tabs';
 import cookieHandler from 'cookie-handler';
@@ -16,10 +17,23 @@ function EditorState(previousState = [], action){
   }
 }
 
+function PictureCounter(state = 0, action){
+  var picsLength = cookieHandler.get('crrntgrphc');
 
+  switch(action.type){
+    case 'INCREMENT':
+      return state + 1
+
+    case 'DECREMENT':
+      return state - 1
+
+    default:
+      return state;
+  }
+}
 
 //combinar reducers en uno
-var rootReducer = combineReducers({ EditorState });
+var rootReducer = combineReducers({ EditorState, PictureCounter });
 
 //crea la store
 var store = createStore(rootReducer);
@@ -40,6 +54,8 @@ var TabPanel = ReactTabs.TabPanel;
     this.onClickClose = this.onClickClose.bind(this);
     this.onChangeTipoConexion = this.onChangeTipoConexion.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.onClickNextPic = this.onClickNextPic.bind(this);
+    this.onClickPrevPic = this.onClickPrevPic.bind(this);
 
     this.state = {
       selectedTab: 0,
@@ -52,8 +68,9 @@ var TabPanel = ReactTabs.TabPanel;
       empresa:'',
       rotulo:'',
       observaciones: '',
-      pics: '',
-      currentPic: ''
+      pics: [],
+      currentPic: noImg,
+      currentPicNumber: 0
     };
 
   }
@@ -67,7 +84,7 @@ var TabPanel = ReactTabs.TabPanel;
   componentDidMount(){
     store.subscribe(()=> {
       var myClickedGraphic = store.getState().EditorState;
-      console.log('nuevo estado',store.getState().EditorState);
+
       this.setState({
         idlum: myClickedGraphic.graphics.ID_LUMINARIA,
         idnodo: myClickedGraphic.graphics.ID_NODO,
@@ -78,9 +95,17 @@ var TabPanel = ReactTabs.TabPanel;
         empresa:myClickedGraphic.graphics.EMPRESA,
         rotulo:myClickedGraphic.graphics.ROTULO,
         observaciones: myClickedGraphic.graphics.OBSERVACION,
-        pics: myClickedGraphic.pics,
-        currentPic: myClickedGraphic.pics[0].url
+        pics: myClickedGraphic.pics
       });
+      if (!myClickedGraphic.pics.length){
+        console.log("Theres no pics here, show the img no available");
+        return;
+      }else{
+        //show the first pic
+          this.setState({
+            currentPic: myClickedGraphic.pics[this.state.currentPicNumber].url
+          });
+      }
     });
   }
 
@@ -101,16 +126,29 @@ var TabPanel = ReactTabs.TabPanel;
     this.setState({selectedTab: index});
 
     var myClickedGraphic = store.getState().EditorState;
-      console.log('nuevo estado fotos',store.getState().EditorState);
-      console.log(myClickedGraphic.pics[0].url);
-      this.setState({
-      pics: myClickedGraphic.pics,
-      currentPic:  myClickedGraphic.pics[0].url
-      });
 
+      //if doesnt have any pics to show
+      if (!myClickedGraphic.pics.length){
+        this.setState({
+        currentPic: noImg
+        });
+
+      }else{
+        this.setState({
+        pics: myClickedGraphic.pics,
+        currentPic:  myClickedGraphic.pics[this.state.currentPicNumber].url
+        });
+      }
 
   }
 
+  onClickNextPic(){
+    store.dispatch({type: 'INCREMENT'})
+  }
+
+  onClickPrevPic(){
+    store.dispatch({type: 'DECREMENT'})
+  }
   render(){
 
     return (
@@ -199,13 +237,13 @@ var TabPanel = ReactTabs.TabPanel;
 
             <TabPanel>
               <div className="ap_wrapper_picture-top">
-                <button className="btn btn-default" title="Ver Fotos" type="button">
+                <button className="btn btn-default" title="Ver Anterior" type="button" onClick={this.onClickPrevPic}>
                   <span><i className="fa fa-chevron-left button-span"></i></span>
                 </button>
-                 <h8>1</h8>
+                 <h8>{store.getState().PictureCounter}</h8>
                  <h8>de</h8>
                  <h8>{this.state.pics.length}</h8>
-                <button className="btn btn-default" title="Ver Fotos" type="button">
+                <button className="btn btn-default" title="Ver Siguiente" type="button" onClick={this.onClickNextPic}>
                   <span><i className="fa fa-chevron-right button-span"></i></span>
                 </button>
               </div>

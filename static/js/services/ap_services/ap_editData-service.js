@@ -70,13 +70,14 @@ function ap_getPicsAttached(idnodo, mySecondCallback){
         mySecondCallback(eventArray);
     }else{
       console.log("hay", eventArray.length,"pics para mostrar");
-      
+
         mySecondCallback(eventArray);
     }
 
   }
   function onFault(eventObject,tokenObject){
     console.log("Error getting the attached pics", eventObject);
+    mySecondCallback([]);
   }
 
 
