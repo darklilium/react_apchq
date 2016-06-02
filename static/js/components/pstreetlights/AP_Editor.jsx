@@ -19,13 +19,16 @@ function EditorState(previousState = [], action){
 
 function PictureCounter(state = 0, action){
   var picsLength = cookieHandler.get('crrntgrphc');
-
+  console.log(action.value, "my action value now", state , "my state value now");
   switch(action.type){
     case 'INCREMENT':
       return state + 1
 
     case 'DECREMENT':
+    if (state > 0){
       return state - 1
+    }
+
 
     default:
       return state;
@@ -77,26 +80,41 @@ var TabPanel = ReactTabs.TabPanel;
 
     store.dispatch({
       type: 'CLICKED'
-    })
+    });
+
   }
 
   componentDidMount(){
     store.subscribe(()=> {
       var myClickedGraphic = store.getState().EditorState;
+      
+          //if doesnt have any pics to show
+          if (!myClickedGraphic.pics.length){
+            this.setState({
+            currentPic: noImg
+            });
 
-        this.setState({
-          idlum: myClickedGraphic.graphics.ID_LUMINARIA,
-          idnodo: myClickedGraphic.graphics.ID_NODO,
-          tipoconexion: myClickedGraphic.graphics.TIPO_CONEXION,
-          tipoluminaria: myClickedGraphic.graphics.TIPO,
-          potencia: myClickedGraphic.graphics.POTENCIA,
-          propiedad: myClickedGraphic.graphics.PROPIEDAD,
-          empresa:myClickedGraphic.graphics.EMPRESA,
-          rotulo:myClickedGraphic.graphics.ROTULO,
-          observaciones: myClickedGraphic.graphics.OBSERVACION,
-          pics: myClickedGraphic.pics
-      });
+          }else{
+
+            let mycurrentpic = myClickedGraphic.pics[0].url;
+            this.setState({
+              idlum: myClickedGraphic.graphics.ID_LUMINARIA,
+              idnodo: myClickedGraphic.graphics.ID_NODO,
+              tipoconexion: myClickedGraphic.graphics.TIPO_CONEXION,
+              tipoluminaria: myClickedGraphic.graphics.TIPO,
+              potencia: myClickedGraphic.graphics.POTENCIA,
+              propiedad: myClickedGraphic.graphics.PROPIEDAD,
+              empresa:myClickedGraphic.graphics.EMPRESA,
+              rotulo:myClickedGraphic.graphics.ROTULO,
+              observaciones: myClickedGraphic.graphics.OBSERVACION,
+              pics: myClickedGraphic.pics,
+              currentPic: mycurrentpic
+          });
+
+          }
+
     });
+
   }
   onChangeTipoConexion(e){
     console.log(e.target.value);
@@ -114,8 +132,8 @@ var TabPanel = ReactTabs.TabPanel;
   handleSelect(index, last){
     this.setState({selectedTab: index});
 
-    /*  var myClickedGraphic = store.getState().EditorState;
-
+    var myClickedGraphic = store.getState().EditorState;
+    console.log("al clickear el tab", myClickedGraphic);
         //if doesnt have any pics to show
         if (!myClickedGraphic.pics.length){
           this.setState({
@@ -123,29 +141,37 @@ var TabPanel = ReactTabs.TabPanel;
           });
 
         }else{
+
+          let mycurrentpic = myClickedGraphic.pics[0].url;
+
           this.setState({
           pics: myClickedGraphic.pics,
-          currentPic:  myClickedGraphic.pics[this.state.currentPicNumber].url
+          currentPic: mycurrentpic
           });
         }
-    */
+
   }
 
   onClickNextPic(){
     var mypicsarr = this.state.pics;
-      console.log(mypicsarr[store.getState().PictureCounter].url);
-    store.dispatch({type: 'INCREMENT', mypicsarr});
+
+
     console.log(store.getState().PictureCounter,"mi index al incrementar");
-    let mycurrentpicselected = mypicsarr[store.getState().PictureCounter-1].url;
-    this.setState({currentPic: mycurrentpicselected});
+    if(store.getState().PictureCounter < mypicsarr.length-1){
+      store.dispatch({type: 'INCREMENT'});
+      let mycurrentpicselected = mypicsarr[store.getState().PictureCounter].url;
+      this.setState({currentPic: mycurrentpicselected});
+      return;
+    }
+
   }
 
   onClickPrevPic(){
     var mypicsarr = this.state.pics;
-    console.log(mypicsarr);
-    store.dispatch({type: 'DECREMENT', mypicsarr});
+
+    store.dispatch({type: 'DECREMENT', value: mypicsarr.length});
     console.log(store.getState().PictureCounter,"mi index al decrementar");
-    let mycurrentpicselected = mypicsarr[store.getState().PictureCounter-1].url;
+    let mycurrentpicselected = mypicsarr[store.getState().PictureCounter].url;
     this.setState({currentPic: mycurrentpicselected});
   }
   render(){
@@ -239,7 +265,7 @@ var TabPanel = ReactTabs.TabPanel;
                 <button className="btn btn-default" title="Ver Anterior" type="button" onClick={this.onClickPrevPic}>
                   <span><i className="fa fa-chevron-left button-span"></i></span>
                 </button>
-                 <h8>{store.getState().PictureCounter}</h8>
+                 <h8>{store.getState().PictureCounter+1}</h8>
                  <h8>de</h8>
                  <h8>{this.state.pics.length}</h8>
                 <button className="btn btn-default" title="Ver Siguiente" type="button" onClick={this.onClickNextPic}>
