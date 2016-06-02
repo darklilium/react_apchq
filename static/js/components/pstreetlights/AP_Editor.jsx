@@ -96,13 +96,15 @@ class APEditor extends React.Component {
       var myClickedGraphic = store.getState().EditorState;
       //if doesnt have any pics to show
       if (!myClickedGraphic.pics.length){
+
         this.setState({
         currentPic: noImg,
-        pics : 0,
+        pics : [],
         currentPicNumber: 0
         });
 
       }else{
+      
         let mycurrentpic = myClickedGraphic.pics[store.getState().PictureCounter].url;
         this.setState({
           idlum: myClickedGraphic.graphics.ID_LUMINARIA,
@@ -176,12 +178,14 @@ class APEditor extends React.Component {
   onClickPrevPic(){
     var mypicsarr = this.state.pics;
 
-    if(store.getState().PictureCounter < mypicsarr.length-1){
+    if(store.getState().PictureCounter <= mypicsarr.length-1){
       store.dispatch({type: 'DECREMENT', value: mypicsarr.length});
       console.log(store.getState().PictureCounter,"mi index al decrementar");
       let mycurrentpicselected = mypicsarr[store.getState().PictureCounter].url;
       this.setState({currentPic: mycurrentpicselected});
       return;
+    }else{
+      console.log("no entro aqui", store.getState().PictureCounter, "my array length", mypicsarr);
     }
 
   }

@@ -5,6 +5,7 @@ import layers from '../../../js/services/layers-service';
 
 
 function ap_showEditor(event){
+  cookieHandler.remove('crrntgrphc');
   var elementMedidor = document.getElementById('wrapper_medidores');
   var elementLuminaria = document.getElementById('wrapper_luminarias');
   var elementLuminariaAsociada = document.getElementById('wrapper_luminariasAsociadas');
@@ -43,7 +44,7 @@ function ap_getPics(idnodo,comuna,callback){
   getOIDPicSrv((map, featureSet) => {
     if(!featureSet.features.length){
       console.log("no hay fotos");
-      return callback('Sin Foto');
+      return callback("NOHAYFOTOS");
     }
     //if theres results then:
     let myOIDPerGetThePics = featureSet.features.map((feature)=>{
@@ -59,7 +60,10 @@ function ap_getPics(idnodo,comuna,callback){
 }
 
 function ap_getPicsAttached(idnodo, mySecondCallback){
+  if (idnodo=='NOHAYFOTOS'){
 
+    return mySecondCallback([]);
+  }
   //ask about the number of pics and which ones are
   var myAttachedInfoLayer = new esri.layers.FeatureLayer(layers.read_ap_catastro_fotos());
   myAttachedInfoLayer.queryAttachmentInfos(idnodo,onResult,onFault);
@@ -77,7 +81,7 @@ function ap_getPicsAttached(idnodo, mySecondCallback){
   }
   function onFault(eventObject,tokenObject){
     console.log("Error getting the attached pics", eventObject);
-    mySecondCallback([]);
+  //  mySecondCallback([]);
   }
 
 
