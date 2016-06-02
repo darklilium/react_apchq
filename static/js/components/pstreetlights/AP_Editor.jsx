@@ -5,6 +5,7 @@ import cookieHandler from 'cookie-handler';
 import { createStore, combineReducers } from 'redux';
 
 //redux
+
 //Reducer del componente para la accion del layer.
 
 function EditorState(previousState = [], action){
@@ -37,7 +38,6 @@ function PictureCounter(state = 0, action){
 
 //combinar reducers en uno
 var rootReducer = combineReducers({ EditorState, PictureCounter });
-
 //crea la store
 var store = createStore(rootReducer);
 
@@ -47,7 +47,8 @@ var Tabs = ReactTabs.Tabs;
 var TabList = ReactTabs.TabList;
 var TabPanel = ReactTabs.TabPanel;
 
-  class APEditor extends React.Component {
+class APEditor extends React.Component {
+
   constructor(props){
     super(props);
     // suscribe.
@@ -59,6 +60,9 @@ var TabPanel = ReactTabs.TabPanel;
     this.handleSelect = this.handleSelect.bind(this);
     this.onClickNextPic = this.onClickNextPic.bind(this);
     this.onClickPrevPic = this.onClickPrevPic.bind(this);
+    this.onRotateLeft = this.onRotateLeft.bind(this);
+    this.onRotateRight = this.onRotateRight.bind(this);
+
 
     this.state = {
       selectedTab: 0,
@@ -72,10 +76,12 @@ var TabPanel = ReactTabs.TabPanel;
       rotulo:'',
       observaciones: '',
       pics: [],
-      currentPic: noImg
+      currentPic: noImg,
+      rotateImgAngle: 0
     };
 
   }
+
   static layerClicked(){
 
     store.dispatch({
@@ -87,7 +93,7 @@ var TabPanel = ReactTabs.TabPanel;
   componentDidMount(){
     store.subscribe(()=> {
       var myClickedGraphic = store.getState().EditorState;
-      
+
           //if doesnt have any pics to show
           if (!myClickedGraphic.pics.length){
             this.setState({
@@ -116,6 +122,7 @@ var TabPanel = ReactTabs.TabPanel;
     });
 
   }
+
   onChangeTipoConexion(e){
     console.log(e.target.value);
     this.setState({tipoconexion: e.target.value});
@@ -174,6 +181,23 @@ var TabPanel = ReactTabs.TabPanel;
     let mycurrentpicselected = mypicsarr[store.getState().PictureCounter].url;
     this.setState({currentPic: mycurrentpicselected});
   }
+
+  onRotateLeft(){
+    let angle = this.state.rotateImgAngle - 90;
+    console.log("my angle for rotation before", angle);
+    $("#myimg").rotate({angle: angle});
+    this.setState({rotateImgAngle: angle});
+    console.log($("#myimg").getRotateAngle(), "this is the angle now and this is my value saved", this.state.rotateImgAngle);
+  }
+
+  onRotateRight(){
+    let angle = this.state.rotateImgAngle + 90;
+    console.log("my angle for rotation before", angle);
+    $("#myimg").rotate({angle: angle});
+    this.setState({rotateImgAngle: angle});
+    console.log($("#myimg").getRotateAngle(), "this is the angle now and this is my value saved", this.state.rotateImgAngle);
+  }
+
   render(){
 
     return (
@@ -274,13 +298,14 @@ var TabPanel = ReactTabs.TabPanel;
               </div>
 
               <div className="ap_wrapper_picture-mid">
-                  <img className="ap_editor_img-picture" src={this.state.currentPic}></img>
+                  <img id="myimg" className="ap_editor_img-picture" src={this.state.currentPic}></img>
               </div>
+
               <div className="ap_wrapper_picture-bot">
-                  <button className="btn btn-default" title="Actualizar" type="button">
+                  <button className="btn btn-default" title="Rotar Izquierda" type="button" onClick={this.onRotateLeft}>
                     <span><i className="fa fa-undo"></i></span>
                   </button>
-                  <button className="btn btn-default" title="Eliminar" type="button">
+                  <button className="btn btn-default" title="Rotar Derecha" type="button" onClick={this.onRotateRight}>
                     <span><i className="fa fa-repeat"></i></span>
                   </button>
               </div>

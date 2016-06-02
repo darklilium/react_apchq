@@ -3,7 +3,7 @@ $fontSizexxSmall: xx-small;
 $fontSize11px: 11px;
 
 .ap_wrapper-editor{
-  width: 30%;
+  width: auto;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -68,8 +68,8 @@ $fontSize11px: 11px;
 }
 
 .ap_editor_img-picture{
-  width: inherit;
-  height: inherit;
+  width: 170px;
+  height: 170px;
 }
 @media screen and (max-width: 1024px) and (min-width:481px) and (orientation: landscape)  {
   .ap_wrapper-editor{
@@ -183,6 +183,10 @@ $fontSize11px: 11px;
     justify-content: space-between;
     margin: 1em;
   }
+  .ap_editor_img-picture {
+    width: 140px;
+    height: 140px;
+  }
 }
 
 @media screen and (max-width: 480px) and (min-width:320px) and (orientation: landscape)  {
@@ -240,5 +244,10 @@ $fontSize11px: 11px;
     display: flex;
     justify-content: space-between;
     margin: 0.5em;
+  }
+
+  .ap_editor_img-picture {
+    width: 140px;
+    height: 140px;
   }
 }
