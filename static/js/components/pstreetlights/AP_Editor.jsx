@@ -77,7 +77,8 @@ class APEditor extends React.Component {
       observaciones: '',
       pics: [],
       currentPic: noImg,
-      rotateImgAngle: 0
+      rotateImgAngle: 0,
+      currentPicNumber: 0
     };
 
   }
@@ -93,34 +94,32 @@ class APEditor extends React.Component {
   componentDidMount(){
     store.subscribe(()=> {
       var myClickedGraphic = store.getState().EditorState;
+      //if doesnt have any pics to show
+      if (!myClickedGraphic.pics.length){
+        this.setState({
+        currentPic: noImg,
+        pics : 0,
+        currentPicNumber: 0
+        });
 
-          //if doesnt have any pics to show
-          if (!myClickedGraphic.pics.length){
-            this.setState({
-            currentPic: noImg
-            });
-
-          }else{
-
-            let mycurrentpic = myClickedGraphic.pics[0].url;
-            this.setState({
-              idlum: myClickedGraphic.graphics.ID_LUMINARIA,
-              idnodo: myClickedGraphic.graphics.ID_NODO,
-              tipoconexion: myClickedGraphic.graphics.TIPO_CONEXION,
-              tipoluminaria: myClickedGraphic.graphics.TIPO,
-              potencia: myClickedGraphic.graphics.POTENCIA,
-              propiedad: myClickedGraphic.graphics.PROPIEDAD,
-              empresa:myClickedGraphic.graphics.EMPRESA,
-              rotulo:myClickedGraphic.graphics.ROTULO,
-              observaciones: myClickedGraphic.graphics.OBSERVACION,
-              pics: myClickedGraphic.pics,
-              currentPic: mycurrentpic
-          });
-
-          }
-
+      }else{
+        let mycurrentpic = myClickedGraphic.pics[store.getState().PictureCounter].url;
+        this.setState({
+          idlum: myClickedGraphic.graphics.ID_LUMINARIA,
+          idnodo: myClickedGraphic.graphics.ID_NODO,
+          tipoconexion: myClickedGraphic.graphics.TIPO_CONEXION,
+          tipoluminaria: myClickedGraphic.graphics.TIPO,
+          potencia: myClickedGraphic.graphics.POTENCIA,
+          propiedad: myClickedGraphic.graphics.PROPIEDAD,
+          empresa:myClickedGraphic.graphics.EMPRESA,
+          rotulo:myClickedGraphic.graphics.ROTULO,
+          observaciones: myClickedGraphic.graphics.OBSERVACION,
+          pics: myClickedGraphic.pics,
+          currentPic: mycurrentpic,
+          currentPicNumber: store.getState().PictureCounter+1
+        });
+      }
     });
-
   }
 
   onChangeTipoConexion(e){
@@ -144,7 +143,8 @@ class APEditor extends React.Component {
         //if doesnt have any pics to show
         if (!myClickedGraphic.pics.length){
           this.setState({
-          currentPic: noImg
+          currentPic: noImg,
+          currentPicNumber: 0
           });
 
         }else{
@@ -153,7 +153,8 @@ class APEditor extends React.Component {
 
           this.setState({
           pics: myClickedGraphic.pics,
-          currentPic: mycurrentpic
+          currentPic: mycurrentpic,
+          currentPicNumber: store.getState().PictureCounter+1
           });
         }
 
@@ -161,9 +162,8 @@ class APEditor extends React.Component {
 
   onClickNextPic(){
     var mypicsarr = this.state.pics;
-
-
     console.log(store.getState().PictureCounter,"mi index al incrementar");
+
     if(store.getState().PictureCounter < mypicsarr.length-1){
       store.dispatch({type: 'INCREMENT'});
       let mycurrentpicselected = mypicsarr[store.getState().PictureCounter].url;
@@ -176,10 +176,14 @@ class APEditor extends React.Component {
   onClickPrevPic(){
     var mypicsarr = this.state.pics;
 
-    store.dispatch({type: 'DECREMENT', value: mypicsarr.length});
-    console.log(store.getState().PictureCounter,"mi index al decrementar");
-    let mycurrentpicselected = mypicsarr[store.getState().PictureCounter].url;
-    this.setState({currentPic: mycurrentpicselected});
+    if(store.getState().PictureCounter < mypicsarr.length-1){
+      store.dispatch({type: 'DECREMENT', value: mypicsarr.length});
+      console.log(store.getState().PictureCounter,"mi index al decrementar");
+      let mycurrentpicselected = mypicsarr[store.getState().PictureCounter].url;
+      this.setState({currentPic: mycurrentpicselected});
+      return;
+    }
+
   }
 
   onRotateLeft(){
@@ -289,7 +293,7 @@ class APEditor extends React.Component {
                 <button className="btn btn-default" title="Ver Anterior" type="button" onClick={this.onClickPrevPic}>
                   <span><i className="fa fa-chevron-left button-span"></i></span>
                 </button>
-                 <h8>{store.getState().PictureCounter+1}</h8>
+                 <h8>{this.state.currentPicNumber}</h8>
                  <h8>de</h8>
                  <h8>{this.state.pics.length}</h8>
                 <button className="btn btn-default" title="Ver Siguiente" type="button" onClick={this.onClickNextPic}>
